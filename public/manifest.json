@@ -1,0 +1,14 @@
+{
+  "short_name": "The Love Universe 💜",
+  "name": "The Love Universe 💜",
+  "icons": [
+    {
+      "src": "logo.png",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
+}
