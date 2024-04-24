@@ -304,6 +304,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                 }}>
                     <button className='action'  style={{
                         opacity: replying ? "0.5": "1",
+                        marginLeft: (replying || message) ? "-100px" : "0"
                     }} disabled={replying || message} >
                         <FaGift />
                     </button>
