@@ -104,7 +104,7 @@ const User = ({appState, setAppState}) => {
         })
     }
     const copyToClipBoard = (value)=>{
-        window?.navigator?.clipboard?.writeText(value)
+        navigator.clipboard.writeText(value)
         alert("Copied Successfully")
     }
     const navigate = useNavigate()

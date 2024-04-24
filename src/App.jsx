@@ -27,6 +27,7 @@ import { CursorifyProvider } from '@cursorify/react';
 import AnimatedCursor from 'react-animated-cursor';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import BuyCredits from './components/buy-credits-popup/BuyCredits';
+import Share from './pages/share/Share';
 // import { PhingerCursor } from '@cursorify/react';
 
 const notLoggedInLinks = [
@@ -475,6 +476,8 @@ useEffect(() => {
             <Route path='/user/:uid' element={appState?.isLoggedIn ? <User appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
             
             <Route path='/account' element={appState?.isLoggedIn ? <Profile appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            
+            <Route path='/share' element={appState?.isLoggedIn ? <Share appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
 
             <Route path='/account/credits' element={appState?.isLoggedIn ? <>
               <Profile appState={appState} setAppState={setAppState} />

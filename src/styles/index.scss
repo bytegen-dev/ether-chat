@@ -2034,6 +2034,64 @@ body{
         }
     }
 
+    &.share--page{
+        .container{
+            section{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 50px;
+
+                .qr-holder{
+                    padding: 15px;
+                    background-color: #fff;
+                    border-radius: 15px;
+                    border: 1px solid #0002;
+                    width: 70vw;
+                    height: 70vw;
+                    min-width: 256px;
+                    min-height: 256px;
+                    max-width: 512px;
+                    max-height: 512px;
+                    background-image: url(../assets/image-gallery.png);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    pointer-events: none;
+                    user-select: none;
+
+                    svg{
+                        width: 100% !important;
+                        height: 100% !important;
+                    }
+                }
+
+                .url-holder{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 15px;
+
+                    p{
+                        color: #777;
+                    }
+
+                    button{
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: none;
+                        background-color: #0001;
+                        border-radius: 10px;
+                        border: 1px solid #0002;
+                    }
+                }
+            }
+        }
+    }
+
     &.chats--page{
         overflow-y: scroll;
         .dot{
