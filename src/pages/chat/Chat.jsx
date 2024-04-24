@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { FaArrowDown, FaCamera, FaCheck, FaCheckDouble, FaChevronLeft, FaEdit, FaEthereum, FaEyeSlash, FaGift, FaImage, FaPencilAlt, FaRegGrinWink, FaRegStar, FaRegTimesCircle, FaReply, FaThumbsUp, FaTimes, FaTrash, FaTrashAlt } from 'react-icons/fa'
+import { FaArrowDown, FaBitcoin, FaCamera, FaCheck, FaCheckDouble, FaChevronLeft, FaDollarSign, FaEdit, FaEthereum, FaEyeSlash, FaGift, FaImage, FaPencilAlt, FaRegGrinWink, FaRegStar, FaRegTimesCircle, FaReply, FaThumbsUp, FaTimes, FaTrash, FaTrashAlt } from 'react-icons/fa'
 import { IoChatbubbles, IoCheckmark, IoImageOutline, IoInformation, IoSend } from 'react-icons/io5'
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { Link, useParams } from 'react-router-dom'
@@ -7,6 +7,7 @@ import Online from '../../components/user/Online'
 import { firestore, storage } from '../../firebaseConfig';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { FaBitcoinSign } from 'react-icons/fa6';
 
 const Chat = ({appState, setAppState, fetchAllMessages}) => {
     const params = useParams()
@@ -62,6 +63,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
     const [src,  setSrc] = useState(null)
     const [sending,  setSending] = useState(false)
     const [addPhoto,  setAddPhoto] = useState(false)
+    const [sendGift, setSendGift] = useState(false)
     const handleImageChange = (e)=>{
         setAddPhoto(true)
         const file = e.target?.files[0]
@@ -298,14 +300,53 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         setReplying(null)
                     }} />
                 </div>}
-                <div className='message-bar menu-bar' style={{
+                {sendGift && <div className='gift-bar menu-bar message-bar'>
+                    <h3>
+                        Send {user?.name} a Gift
+                    </h3>
+                    <div className='types-holder'>
+                        <div className='type'>
+                            <FaEthereum />
+                            ETH
+                        </div>
+                        <div className='type'>
+                            <FaBitcoinSign />
+                            BTC
+                        </div>
+                        <div className='type'>
+                            <FaDollarSign />
+                            USDT
+                        </div>
+                        <div className='type'>
+                            <b>$CHATGEN</b>
+                            tokens
+                        </div>
+                    </div>
+                    <button className='btn filled' style={{
+                        width: "fit-content",
+                        marginTop: "10px",
+                        background: "#f002",
+                        color: "red",
+                        fontWeight: "300",
+                        fontSize: "14px",
+                        height: "30px",
+                        padding: "5px 15px"
+                    }} onClick={()=>{
+                        setSendGift(false)
+                    }}>
+                        Cancel
+                    </button>
+                </div>}
+                {!sendGift && <div className='message-bar menu-bar' style={{
                     overflow: "hidden",
                     alignItems: "stretch"
                 }}>
                     <button className='action'  style={{
                         opacity: replying ? "0.5": "1",
                         marginLeft: (replying || message) ? "-100px" : "0"
-                    }} disabled={replying || message} >
+                    }} disabled={replying || message} onClick={()=>{
+                        setSendGift(true)
+                    }}>
                         <FaGift />
                     </button>
                     {!file ? <button className='action' style={{
@@ -383,13 +424,19 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                             </button>}
                         </>
                     </form>
-                </div>
+                </div>}
                 {(isVisible && !replying) && (
                     <button onClick={scrollToBottom} className='scroll-bottom'>
                         <FaArrowDown />
                     </button>
                 )}
-                <div className='page user--page chat--page' ref={appRef}>
+                <div className='page user--page chat--page' ref={appRef}  style={{
+                    opacity: sendGift ? "0.2" : 1,
+                    transition: "all 0.3s ease",
+                    filter: sendGift ? "blur(30px)" : "none"
+                }} onClick={()=>{
+                    setSendGift(false)
+                }}>
                     <div className='container'>
                         <Link Link to={`/user/${user?.uid}`} className='head'>
                             <div className='back' style={{
