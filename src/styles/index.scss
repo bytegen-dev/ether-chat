@@ -1793,7 +1793,7 @@ body{
                 background-repeat: no-repeat;
                 border: 1px solid #0002;
                 background-color: #0001;
-                min-height: 300px;
+                min-height: 200px;
                 min-width: 300px;
                 background-image: url(../assets/image-gallery.png);
 
@@ -1809,7 +1809,7 @@ body{
                     // overflow: visible;
                     margin-top: 20px;
                     min-width: 100%;
-                    // min-height: fit-content;
+                    min-height: fit-content;
                     
                     &.account{
                         border-radius: 1000px;
