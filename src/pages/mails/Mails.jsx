@@ -61,6 +61,7 @@ const Mails = ({appState, setAppState}) => {
                             const reciever = appState?.users?.find((user)=>{
                                 return mail.to === user?.uid
                             })
+                            const slicedText = mail.text?.length > 75 ? `${mail.text?.slice(0, 70)}...` : mail.text
                             const user2 = currentFilter === "inbox" ? sender : (currentFilter === "outbox" ? reciever : null)
                             return (
                                 <Link key={index} to={`/mail/${mail?.id}`} className='chat' style={{
@@ -76,9 +77,9 @@ const Mails = ({appState, setAppState}) => {
                                             style={{
                                                 filter: user?.credits >= 10 ? "blur(0px)" : "blur(3px)"
                                             }}
-                                        >{mail?.text || "..."}</p>
+                                        >{slicedText || "..."}</p>
                                     </div>
-                                    <div className='data'>
+                                    {/* <div className='data'>
                                         <p className='date'>
                                             {mail?.timeStamp}
                                         </p>
@@ -87,7 +88,7 @@ const Mails = ({appState, setAppState}) => {
                                         }} /> : <FaEnvelope style={{
                                             color: "#5e30d3"
                                         }} />}
-                                    </div>
+                                    </div> */}
                                 </Link>
                             )
                         })

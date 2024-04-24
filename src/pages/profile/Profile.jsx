@@ -149,11 +149,6 @@ const Profile = ({appState, setAppState}) => {
                             </div>
                             <div className='basic'>
                                 <p>
-                                    Relationship status: <b>{user?.selectedRelationship || "not specified"}</b>
-                                </p>
-                            </div>
-                            <div className='basic'>
-                                <p>
                                     Identifies as: <b style={{
                                         textTransform: "capitalize",
                                     }}>{user?.gender || "organism"}</b>
@@ -197,7 +192,7 @@ const Profile = ({appState, setAppState}) => {
 
                     {user?.goals && <section className='basics'>
                         <h3>
-                            MY GOALS
+                            MY INTERESTS
                         </h3>
                         <div className='basics-holder'>
                             {user?.goals?.map((interest, index)=>{

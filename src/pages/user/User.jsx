@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { FaChevronLeft, FaEyeSlash, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaStar, FaThumbsUp } from 'react-icons/fa'
+import { FaChevronLeft, FaEyeSlash, FaGift, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaStar, FaThumbsUp } from 'react-icons/fa'
 import { IoChatbubbles } from 'react-icons/io5'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import Online from '../../components/user/Online'
@@ -150,15 +150,15 @@ const User = ({appState, setAppState}) => {
                                 <Link to={`/chat/${uid}`} className='btn filled'>
                                     <IoChatbubbles />
                                     <p>
-                                        Chat now
+                                        Send a message
                                     </p>
                                 </Link>
                             </div>
                             <div className='actions'>
                                 <button>
-                                    <FaThumbsUp />
+                                    <FaGift />
                                     <p>
-                                        Like
+                                        Gift
                                     </p>
                                 </button>
                                 <button onClick={()=>{
@@ -185,8 +185,10 @@ const User = ({appState, setAppState}) => {
                         </section>
 
                         <section className='photos public'>
-                            <h3>
-                                PUBLIC PHOTOS
+                            <h3 style={{
+                                textTransform: "capitalize"
+                            }}>
+                                {user?.name}'S GALLERY
                             </h3>
                             {user?.gallery?.length ? <div className='photos-holder'>
                                 {user?.gallery?.map((url, index)=>{
@@ -196,8 +198,9 @@ const User = ({appState, setAppState}) => {
                                 })}
                             </div> : <p style={{
                                 color: "#888",
+                                marginTop: "10px"
                             }}>
-                                {user?.name}'s hasn't added any Public photos yet
+                                nothing here yet
                             </p>}
                         </section>
                         <section className='basics'>
@@ -207,29 +210,21 @@ const User = ({appState, setAppState}) => {
                             <div className='basics-holder'>
                                 <div className='basic'>
                                     <p>
-                                        Birthday: <b>{user?.birthday || "not specified"}</b>
+                                        City: <b>{user?.city || "somewhere"}</b>
                                     </p>
                                 </div>
                                 <div className='basic'>
                                     <p>
-                                        City: <b>{user?.location?.city || "not specified"}</b>
-                                    </p>
-                                </div>
-                                <div className='basic'>
-                                    <p>
-                                        Relationship status: <b>{user?.selectedRelationship || "not specified"}</b>
-                                    </p>
-                                </div>
-                                <div className='basic'>
-                                    <p>
-                                        Occupation: <b>{user?.occupation || "not specified"}</b>
+                                        Identifies as: <b style={{
+                                            textTransform: "capitalize"
+                                        }}>{user?.gender || "something"}</b>
                                     </p>
                                 </div>
                             </div>
                         </section>
                         {user?.goals && <section className='basics'>
                             <h3>
-                                GOALS
+                                INTERESTS
                             </h3>
                             <div className='basics-holder'>
                                 {user?.goals?.map((trait, index)=>{
@@ -279,9 +274,9 @@ const User = ({appState, setAppState}) => {
                         </section>}
 
                         <section className='actions-holder'>
-                            <Link className='btn filled' to={`/chat/${user?.uid}`} style={{
+                            {/* <Link className='btn filled' to={`/chat/${user?.uid}`} style={{
                                 maxWidth: "200px"
-                            }}><IoChatbubbles />Chat now</Link>
+                            }}><IoChatbubbles />Chat now</Link> */}
                             {/* <Link className='btn outline' to={`/chat/${user?.uid}`}>Next profile</Link> */}
                         </section>
 

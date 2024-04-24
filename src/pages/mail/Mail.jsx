@@ -130,15 +130,15 @@ const Mail = ({appState, setAppState}) => {
                             </p>
                         </Link>
                         <section className='chat--section'>
-                            <h3>Send an Email to <span>{user?.name}</span></h3>
+                            <h3>Send an Ether mail to <>{user?.name}</></h3>
                             <form onSubmit={handleSubmit}>
                                 <div className='inp-holder'>
                                     <label>Heading</label>
-                                    <input required name='heading' value={userInfo?.heading} placeholder='Your Email Header' onChange={handleChange} />
+                                    <input required name='heading' value={userInfo?.heading} placeholder={`GM ${user?.name}`} onChange={handleChange} />
                                 </div>
                                 <div className='inp-holder'>
                                     <label>Body</label>
-                                    <textarea required name='text' minLength={5} placeholder='Type your Email' value={userInfo?.text} onChange={handleChange} />
+                                    <textarea required name='text' minLength={5} placeholder={`Start typing...`} value={userInfo?.text} onChange={handleChange} />
                                 </div>
                                 <div className='attach-files'>
                                     {/* <div className='info'>
@@ -161,7 +161,7 @@ const Mail = ({appState, setAppState}) => {
                                 </div>
                                 <div className='info'>
                                     <p>
-                                        Sending your first mail costs 10 credits. Each following mail costs 30 credits.
+                                        Sending an Ether mail costs 100 tokens.
                                     </p>
                                 </div>
                             </form>

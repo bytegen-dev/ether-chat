@@ -252,7 +252,7 @@ const Wizard = ({appState, setAppState}) => {
                 {progress}
                 <div className='instruction-holder'>
                     <h2>
-                        What is your goal here?
+                        What are your interests?
                     </h2>
                     <small style={{
                         border: "1px solid #03A9F422"

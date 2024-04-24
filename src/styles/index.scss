@@ -1578,7 +1578,7 @@ body{
             border-radius: 1000px;
             // left: 5vw;
             top: 80px;
-            background-color: #fff4;
+            background-color: rgba(lighten($neutral-beige, 3), 0.7);
             backdrop-filter: blur(10px);
             
             p{
@@ -1873,6 +1873,10 @@ body{
                 }
             }
         }
+
+        input{
+            background-color: #0001;
+        }
     }
 
     &.chats--page{
@@ -2064,7 +2068,7 @@ body{
                     position: absolute;
                     right: 0;
                     padding: 10px 20px;
-                    background-color: #fff;
+                    background-color: transparent;
                     
                     .date{
                         position: absolute;
@@ -3121,7 +3125,6 @@ body{
 .user--card{
     // background-color: #fff3;
     border-radius: 0px;
-    border: 1px solid #0004;
     // box-shadow: 0px 0px 10px #0001;
     display: flex;
     border: 1px solid #00000001;
@@ -3133,6 +3136,7 @@ body{
     overflow: hidden;
     background-color: #0001;
     opacity: 0;
+    border: 1px solid #0002;
     animation: opacitate-x 0.5s ease forwards;
 
     @keyframes opacitate-x {

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { FaArrowDown, FaCamera, FaCheck, FaCheckDouble, FaChevronLeft, FaEdit, FaEyeSlash, FaGift, FaPencilAlt, FaRegGrinWink, FaRegStar, FaRegTimesCircle, FaReply, FaThumbsUp, FaTimes, FaTrash, FaTrashAlt } from 'react-icons/fa'
+import { FaArrowDown, FaCamera, FaCheck, FaCheckDouble, FaChevronLeft, FaEdit, FaEthereum, FaEyeSlash, FaGift, FaImage, FaPencilAlt, FaRegGrinWink, FaRegStar, FaRegTimesCircle, FaReply, FaThumbsUp, FaTimes, FaTrash, FaTrashAlt } from 'react-icons/fa'
 import { IoChatbubbles, IoCheckmark, IoImageOutline, IoInformation, IoSend } from 'react-icons/io5'
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { Link, useParams } from 'react-router-dom'
@@ -236,7 +236,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
             {notFound && <div className='page user--page chat--page' ref={appRef}>
                 <div className='container'>
                     <p style={{color: "#666", fontSize: "14px", marginTop: "30px"}}>
-                        404 || chat not found
+                        ...
                     </p>
                 </div>
             </div>}
@@ -302,6 +302,11 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                     overflow: "hidden",
                     alignItems: "stretch"
                 }}>
+                    <button className='action'  style={{
+                        opacity: replying ? "0.5": "1",
+                    }} disabled={replying || message} >
+                        <FaGift />
+                    </button>
                     {!file ? <button className='action' style={{
                         opacity: replying ? "0.5": "1",
                         marginLeft: (replying || message) ? "-100px" : "0"
@@ -310,7 +315,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         setFile(null)
                         setSrc(null)
                     }}>
-                        {!addPhoto ? <FaCamera /> : <FaTimes />}
+                        {!addPhoto ? <FaImage /> : <FaTimes />}
                     </button> :
                     <button className='action' style={{
                         opacity: replying ? "0.5": "1",
@@ -319,16 +324,11 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         setFile(null)
                         setSrc(null)
                     }}>
-                        {!addPhoto ? <FaCamera /> : <FaTrashAlt style={{
+                        {!addPhoto ? <FaImage /> : <FaTrashAlt style={{
                                 position: "relative",
                             }} />}
                     </button>}
-                    <button className='action'  style={{
-                        opacity: replying ? "0.5": "1",
-                        display: "none",
-                    }} disabled={replying || message} >
-                        <FaGift />
-                    </button>
+                    
                     <form onSubmit={(e)=>{
                         if(!sending){
                             handleSubmit(e)
