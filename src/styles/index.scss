@@ -382,6 +382,7 @@ body{
     opacity: 0;
     visibility: hidden;
     padding-bottom: 120px;
+    border: 2px solid #0001;
     .hamburger{
         border-radius: 1000px;
         position: fixed;
@@ -401,6 +402,7 @@ body{
         min-width: 200px !important;
         opacity: 0;
         transform: translateX(0);
+        border: none;
 
         a{
             font-size: 25px !important;
