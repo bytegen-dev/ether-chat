@@ -53,7 +53,7 @@ const Header = ({appState, setAppState}) => {
                             Profile
                         </Link>
                     </p>}
-                    {(showMore || !appState?.isLoggedIn) && <>
+                    {(showMore || !appState?.isLoggedIn) ? <>
                         {appState?.links?.map((link, index)=>{
                             return (
                                 <p key={index}>
@@ -65,6 +65,21 @@ const Header = ({appState, setAppState}) => {
                                 </p>
                             )
                         })}
+                    </> : <>
+                        <p>
+                            <NavLink to={"https://twitter.com/isaacadxbayo"} onClick={()=>{
+                                setShowMenu(false)
+                            }}>
+                                Twitter
+                            </NavLink>
+                        </p>
+                        <p>
+                            <NavLink to={"https://github.com/bytegen-dev"} onClick={()=>{
+                                setShowMenu(false)
+                            }}>
+                                Github
+                            </NavLink>
+                        </p>
                     </>}
                     {appState?.isLoggedIn && <p>
                         <Link style={{

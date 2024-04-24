@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FaChevronLeft, FaCoins, FaEdit, FaEyeSlash, FaPencilAlt, FaPlus, FaPlusCircle, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaThumbsUp } from 'react-icons/fa'
+import { FaChevronLeft, FaCoins, FaDiscord, FaEdit, FaEyeSlash, FaPencilAlt, FaPlus, FaPlusCircle, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaReply, FaShare, FaThumbsUp } from 'react-icons/fa'
 import { IoAddCircleOutline, IoChatbubbles, IoPencil, IoTrash } from 'react-icons/io5'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Online from '../../components/user/Online'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebaseConfig'
+import { FaXTwitter } from 'react-icons/fa6'
 
 const Profile = ({appState, setAppState}) => {
     const params = useParams()
@@ -63,9 +64,7 @@ const Profile = ({appState, setAppState}) => {
                         <div className='credits-holder actions'>
                         </div>
                         <div className='actions'>
-                            <button onClick={()=>{
-                                navigate("/account/credits")
-                            }}>
+                            <button>
                                 <FaCoins style={{
                                     color: "gold",
                                 }} />
@@ -102,13 +101,26 @@ const Profile = ({appState, setAppState}) => {
                                     Not Following Anyone
                                 </p>}
                             </button>
+                            <button onClick={()=>{
+                                navigate(`/share`)
+                            }}>
+                                <FaShare />
+                                <p>
+                                    Share
+                                </p>
+                            </button>
                         </div>
                     </section>
 
                     <section className='photos'>
-                        <h3>MY EMAIL</h3>
-                        <p>
-                            {user?.email}
+                        <h3>MY EMAIL <small><i style={{
+                            fontWeight: "300",
+                            color: "#0003",
+                        }}>(private)</i></small></h3>
+                        <p style={{
+                            color: "#777",
+                        }}>
+                            {user?.email || "not added yet"}
                         </p>
                     </section>
 
@@ -127,9 +139,33 @@ const Profile = ({appState, setAppState}) => {
                         </div> : <p style={{
                             color: "#888",
                         }}>
-                            You haven't added any Public photos yet
+                            nothing here yet
                         </p>}
                     
+                    </section>
+
+                    
+
+                    <section className='photos'>
+                        <h3><FaXTwitter />.COM</h3>
+                        <p style={{
+                            color: "#777",
+                        }}>
+                            {user?.twitter || "not added yet"}
+                        </p>
+                    </section>
+
+                    <section className='photos'>
+                        <h3 style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "5px",
+                        }}><FaDiscord className='discord' color='#54a' size={20} /> DISCORD ID</h3>
+                        <p style={{
+                            color: "#777",
+                        }}>
+                            {user?.discord || "not added yet"}
+                        </p>
                     </section>
 
                     <section className='basics'>
@@ -152,6 +188,13 @@ const Profile = ({appState, setAppState}) => {
                                     Identifies as: <b style={{
                                         textTransform: "capitalize",
                                     }}>{user?.gender || "organism"}</b>
+                                </p>
+                            </div>
+                            <div className='basic'>
+                                <p>
+                                    ETH address: <b style={{
+                                        textTransform: "capitalize"
+                                    }}>{user?.ethAddress || "0x...34"}</b>
                                 </p>
                             </div>
                         </div>
@@ -190,7 +233,7 @@ const Profile = ({appState, setAppState}) => {
                         </div>
                     </section>}
 
-                    {user?.goals && <section className='basics'>
+                    {user?.goals?.length > 0 && <section className='basics'>
                         <h3>
                             MY INTERESTS
                         </h3>

@@ -35,12 +35,12 @@ const notLoggedInLinks = [
     to: "/"
   },
   {
-    title: "My Github",
+    title: "Github",
     isLink: false,
     to: "https://github.com/bytegen-dev",
   },
   {
-    title: "Learn more",
+    title: "Twitter",
     isLink: true,
     to: "https://x.com/isaacadxbayo",
   },
@@ -52,16 +52,17 @@ const loggedInLinks = [
     to: "/search",
   },
   {
-    title: "Messages",
+    title: "Chats",
     to: "/chats",
-  },
-  {
-    title: "People",
-    to: "/people",
   },
   {
     title: "Account",
     to: "/account",
+  },
+  {
+    title: "Twitter",
+    to: "https://x.com/isaacadxbayo",
+    isLink:true,
   },
   {
     title: "Github",

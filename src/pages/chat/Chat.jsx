@@ -431,7 +431,6 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                     </button>
                 )}
                 <div className='page user--page chat--page' ref={appRef}  style={{
-                    opacity: sendGift ? "0.2" : 1,
                     transition: "all 0.3s ease",
                     filter: sendGift ? "blur(30px)" : "none"
                 }} onClick={()=>{

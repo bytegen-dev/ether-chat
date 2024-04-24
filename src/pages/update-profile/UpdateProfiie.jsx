@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { FaArrowRight, FaCamera, FaChevronLeft, FaPencilAlt, FaTrashAlt } from 'react-icons/fa'
+import { FaArrowRight, FaCamera, FaChevronCircleDown, FaChevronCircleUp, FaChevronDown, FaChevronLeft, FaPencilAlt, FaTrashAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import Select from 'react-select';
 import { Country, State, City } from 'country-state-city'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { firestore, storage } from '../../firebaseConfig';
 import { doc, updateDoc } from 'firebase/firestore';
+import { FaAngleDown, FaXTwitter } from 'react-icons/fa6';
 
 const UpdateProfiie = ({appState, setAppState}) => {
     const navigate = useNavigate()
@@ -138,6 +139,7 @@ const UpdateProfiie = ({appState, setAppState}) => {
     },[])
 
     const [error, setError] = useState(null)
+    const [dropOptional, setDropOptional] = useState(false)
 
 
     const handleSubmit = async(e)=>{
@@ -298,7 +300,7 @@ const UpdateProfiie = ({appState, setAppState}) => {
                     alignItems: "center",
                 }}>
                     <h3 style={{
-                        paddingTop: "45px",
+                        paddingTop: "70px",
                         paddingBottom: "10px",
                         borderBottom: "2px solid #0001",
                         textAlign: "center"
@@ -362,6 +364,18 @@ const UpdateProfiie = ({appState, setAppState}) => {
                                     ABOUT ME
                                 </label>
                                 <input type='bio' placeholder='I hodl crypto' value={userInfo?.bio} onChange={handleChange} name='bio' />
+                            </div>
+                            <div className='inp-holder'>
+                                <label>
+                                    DISCORD ID
+                                </label>
+                                <input type='discord' placeholder={`${userInfo.name}`} value={userInfo?.discord} onChange={handleChange} name='discord' />
+                            </div>
+                            <div className='inp-holder'>
+                                <label>
+                                    <FaXTwitter />.com
+                                </label>
+                                <input type='twitter' placeholder={`https://x.com/${userInfo?.name}`} value={userInfo?.twitter} onChange={handleChange} name='twitter' />
                             </div>
                             <div className='inp-holder'>
                                 <label>
@@ -429,6 +443,30 @@ const UpdateProfiie = ({appState, setAppState}) => {
                                     Clear
                                 </div>}
                             </div>
+                        </section>
+                        <section>
+                            <h3 style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                                width: "fit-content"
+                            }} onClick={()=>{
+                                setDropOptional(!dropOptional)
+                            }}>OPTIONAL {dropOptional ? <FaChevronCircleUp color='#777' /> : <FaChevronCircleDown color='#777' />}</h3>
+                            {dropOptional ? <>
+                                <div className='inp-holder'>
+                                    <label>BTC address</label>
+                                    <input type='text' placeholder='btc only!' value={userInfo?.btcAddress} onChange={handleChange} name='btcAddress' />
+                                </div>
+                                <div className='inp-holder'>
+                                    <label>USDT address</label>
+                                    <input type='text' placeholder='usdt only!' value={userInfo?.btcAddress} onChange={handleChange} name='btcAddress' />
+                                </div>
+                            </> : <p style={{
+                                color: "#777"
+                            }}>
+                                proceed with caution. lol
+                            </p>}
                         </section>
                         {error && <p className='error' style={{
                             width:"fit-content"

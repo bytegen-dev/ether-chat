@@ -1,10 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { FaChevronLeft, FaEyeSlash, FaGift, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaStar, FaThumbsUp } from 'react-icons/fa'
+import { FaChevronLeft, FaCopy, FaDiscord, FaEyeSlash, FaGift, FaRegEnvelope, FaRegGrinWink, FaRegStar, FaStar, FaThumbsUp } from 'react-icons/fa'
 import { IoChatbubbles } from 'react-icons/io5'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import Online from '../../components/user/Online'
 import { doc, updateDoc } from 'firebase/firestore'
 import { firestore } from '../../firebaseConfig'
+import { FaXTwitter } from 'react-icons/fa6'
 
 const User = ({appState, setAppState}) => {
     const params = useParams()
@@ -102,6 +103,10 @@ const User = ({appState, setAppState}) => {
             }
         })
     }
+    const copyToClipBoard = (value)=>{
+        window?.navigator?.clipboard?.writeText(value)
+        alert("Copied Successfully")
+    }
     const navigate = useNavigate()
     return (
         <>
@@ -186,7 +191,7 @@ const User = ({appState, setAppState}) => {
 
                         <section className='photos public'>
                             <h3 style={{
-                                textTransform: "capitalize"
+                                textTransform: "uppercase"
                             }}>
                                 {user?.name}'S GALLERY
                             </h3>
@@ -202,6 +207,37 @@ const User = ({appState, setAppState}) => {
                             }}>
                                 nothing here yet
                             </p>}
+                        </section>
+                        <section className='photos'>
+                            <h3><FaXTwitter />.COM</h3>
+                            <p style={{
+                                color: "#777",
+                            }}>
+                                {user?.twitter || "nothing here yet"} {user?.twitter && <span style={{
+                                    marginLeft: "10px",
+                                    color: "#444"
+                                }} onClick={()=>{
+                                    copyToClipBoard(user?.twitter)
+                                }}><FaCopy /></span>}
+                            </p>
+                        </section>
+
+                        <section className='photos'>
+                            <h3 style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "5px",
+                            }}><FaDiscord className='discord' color='#54a' size={20} /> DISCORD ID</h3>
+                            <p style={{
+                                color: "#777",
+                            }}>
+                                {user?.discord || "nothing here yet"} {user?.discord && <span style={{
+                                    marginLeft: "10px",
+                                    color: "#444"
+                                }} onClick={()=>{
+                                    copyToClipBoard(user?.discord)
+                                }}><FaCopy /></span>}
+                            </p>
                         </section>
                         <section className='basics'>
                             <h3>
@@ -220,9 +256,16 @@ const User = ({appState, setAppState}) => {
                                         }}>{user?.gender || "something"}</b>
                                     </p>
                                 </div>
+                                <div className='basic'>
+                                    <p>
+                                        ETH address: <b style={{
+                                            textTransform: "capitalize"
+                                        }}>{user?.ethAddress || "*******"}</b>
+                                    </p>
+                                </div>
                             </div>
                         </section>
-                        {user?.goals && <section className='basics'>
+                        {user?.goals?.length > 0 && <section className='basics'>
                             <h3>
                                 INTERESTS
                             </h3>
