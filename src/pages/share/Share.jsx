@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code'
 import { Link, useLocation } from 'react-router-dom'
 
 const Share = ({appState}) => {
-    const url = `https://ether-chat.vercel.app/user/${appState?.user?.uid}`
+    const url = `https://ether-chat-xi.vercel.app/user/${appState?.user?.uid}`
     const [copied, setCopied] = useState(false)
     const urlShort = `${url?.slice(0,20)}...`
     const copyToClipBoard = (value)=>{
