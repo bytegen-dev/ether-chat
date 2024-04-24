@@ -664,14 +664,15 @@ body{
 .message-bar{
     position: fixed;
     z-index: 30;
-    background-color: #fffe;
+    background-color: rgba($neutral-beige, 0.9);
     width: 85%;
     max-width: 500px;
     padding: 10px;
     display: flex !important;
     
     @media screen and (max-width: 500px) {
-        background-color: #fffe !important;
+        background-color: lighten($neutral-beige, 3) !important;
+        // background-color: #fffe !important;
         border: 1px solid #0002;
         backdrop-filter: blur(10px);
         bottom: 20px;
@@ -712,6 +713,7 @@ body{
             padding: 5px 10px;
             transition: all 0.5s ease;
             outline: none;
+            background-color: transparent;
         
             &:focus{
                 background-color: #0001;
@@ -2087,7 +2089,7 @@ body{
             top: 0;
             left: 0;
             pointer-events: none;
-            background-image: linear-gradient(#fffe, #fffe), url(https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=);
+            background-image: linear-gradient(rgba($neutral-beige, 0.9), rgba($neutral-beige, 0.9)), url(https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=);
             // background-size: contain;
             background-size: 440px;
             
@@ -2437,10 +2439,10 @@ body{
                     justify-content: flex-end;
                     
                     .message{
-                        background-color: #5e30d3;
+                        background-color: $primary-color;
                         align-items: flex-end;
                         color: #fff;
-                        background-image: linear-gradient(145deg,#0005, #0000, #0002);
+                        background-image: linear-gradient(145deg,#0002, #0000, #0005);
                         background-size: 400%;
                         background-position: left;
                         min-width: 200px;
