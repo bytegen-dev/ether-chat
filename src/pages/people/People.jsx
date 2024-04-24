@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import UserCard from '../../components/user/UserCard'
+import { useNavigate } from 'react-router-dom'
 
 const People = ({appState, setAppState}) => {
-    const users = appState?.users
+    const usersx = appState?.users
+    const users = usersx?.filter((user)=>{
+        return user?.uid !== appState?.user?.uid
+    })
     const following = appState?.user?.following
     const followingUsers = following?.map((uid)=>{
         const userWithId = users?.find(userx => userx?.uid === uid)
@@ -49,12 +53,15 @@ const People = ({appState, setAppState}) => {
         }
     }
 
+    const navigate = useNavigate()
+
     const skipUser = ()=>{
         getRandomUser()
     }
     
     const likeUser = (randomUser)=>{
         const user=randomUser
+        navigate(`/chat/${user?.uid}`)
         getRandomUser()
     }
 
@@ -77,39 +84,43 @@ const People = ({appState, setAppState}) => {
                         </button>
                     </div>
                 </div>
-                {currentTab === "random" && <>
-                    <section className='random--section'>
-                        {(isLoading || !randomUser) ? <div className='spinner'></div> : <UserCard appState={appState} user={randomUser} setAppState={setAppState} isBig={true} />}
-                        <div className='btn-holder'>
-                            <button className='btn outline' onClick={()=>{
-                                skipUser()
-                            }}>
-                                Skip
-                            </button>
-                            <button className='btn filled green' onClick={()=>{
-                                likeUser(randomUser)
-                            }}>
-                                Like
-                            </button>
-                        </div>
-                    </section>
-                </>}
-                {currentTab === "following" && <>
-                    <section className='following--section'>
-                        <p>
-                            You're following <b>{following?.length || 0}</b> people
-                        </p>
-                        <div className='users-holder'>
-                            {
-                                filterFollowingUsers?.map((user, index)=>{
-                                    return (
-                                        <UserCard appState={appState} index={index} key={index} setAppState={setAppState} user={user} />
-                                    )
-                                })
-                            }
-                        </div>
-                    </section>
-                </>}
+                {users?.length ? <>
+                    {currentTab === "random" && <>
+                        <section className='random--section'>
+                            {(isLoading || !randomUser) ? <div className='spinner'></div> : <UserCard appState={appState} user={randomUser} setAppState={setAppState} isBig={true} />}
+                            <div className='btn-holder'>
+                                <button className='btn outline' onClick={()=>{
+                                    skipUser()
+                                }}>
+                                    Skip
+                                </button>
+                                <button className='btn filled green' onClick={()=>{
+                                    likeUser(randomUser)
+                                }}>
+                                    Chat
+                                </button>
+                            </div>
+                        </section>
+                    </>}
+                    {currentTab === "following" && <>
+                        <section className='following--section'>
+                            <p>
+                                You're following <b>{following?.length || 0}</b> people
+                            </p>
+                            <div className='users-holder'>
+                                {
+                                    filterFollowingUsers?.map((user, index)=>{
+                                        return (
+                                            <UserCard appState={appState} index={index} key={index} setAppState={setAppState} user={user} />
+                                        )
+                                    })
+                                }
+                            </div>
+                        </section>
+                    </>}
+                </> : <p>
+                    ...
+                </p>}
             </div>
         </div>
     </>

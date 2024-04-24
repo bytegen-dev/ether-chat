@@ -6,16 +6,19 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } f
 import { auth, firestore } from '../../firebaseConfig'
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
 import Footer from '../../components/footer/Footer'
+import { FaBoltLightning } from 'react-icons/fa6'
 
 const SignUp = ({appState, setAppState}) => {
     const genders = [
-        "male",
-        "female",
+        "dev",
+        "trader",
+        "hodler",
+        "degen",
     ]
 
     const stages = [
         "details",
-        "auth"
+        "auth",
     ]
 
     const [currentStage, setCurrentStage] = useState(stages[0])
@@ -177,10 +180,10 @@ const SignUp = ({appState, setAppState}) => {
                 <section className='page--section heading'>
                     <div className='left'>
                         <h1 className='title_main'>
-                            Share your passion for communication
+                            Connect with your ETH buddies
                         </h1>
                         <p className='paragraph paragraph main'>
-                            <b style={{fontSize: "inherit"}}>The Love Universe</b> is a platform where people easily find each other for a quality chatting
+                            <b style={{fontSize: "inherit"}}>Ether chat</b> is a project made for the ethereum web3 community to discover and communicate with new frens.
                         </p>
                         {error && <ErrorComponent error={error} />}
                         {currentStage === stages[0] && <div className='signup--card'>
@@ -188,7 +191,7 @@ const SignUp = ({appState, setAppState}) => {
                             <div className='inp-holder'>
                                 <div>
                                     <label>
-                                        I am a
+                                        I identify as
                                     </label>
                                     <div className='select-holder'>
                                         {genders?.map((gender, index)=>{
@@ -215,15 +218,19 @@ const SignUp = ({appState, setAppState}) => {
                             <div className='inp-holder --long'>
                                 <div>
                                     <label>
-                                        My name is
+                                        My nickname is
                                     </label>
                                     <div className='select-holder'>
-                                        <input required type="text" name='name' placeholder='John' onChange={handleChange} value={userInfo.value} />
+                                        <input required type="text" name='name' placeholder='JohnWick the Great' onChange={handleChange} value={userInfo.value} />
                                     </div>
                                 </div>
                                 <div>
                                     <label>
-                                        My birthday
+                                        My birthday <i style={{
+                                            fontWeight: "300",
+                                            fontSize: "12px",
+                                            color: "#0008"
+                                        }}>(private)</i>
                                     </label>
                                     <div className='select-holder'>
                                         <input required type="date" name='birthday' onChange={handleChange} value={userInfo.birthday} />
@@ -234,16 +241,16 @@ const SignUp = ({appState, setAppState}) => {
                             <div className='inp-holder check'>
                                 <input id='check' type="checkbox" required />
                                 <label htmlFor='check'>
-                                    <span>I have read, understand and agree to the </span>
-                                     <Link to={"/terms"}>
-                                        Terms of use, Privacy Policy, Payment & Refund Policy
-                                    </Link>
+                                    <span>LFG <FaBoltLightning color='red' /> </span>
+                                     {/* <Link to={"/terms"}>
+                                        Report 
+                                    </Link> */}
                                 </label>
                             </div>
 
                             <div className='btn-holder'>
                                 <button className='btn fancy hover'>
-                                    Create an account
+                                    Proceed
                                 </button>
                             </div>
                         </form>
@@ -252,9 +259,9 @@ const SignUp = ({appState, setAppState}) => {
                             <form onSubmit={handleSubmit}>
                                 <div className='inp-holder'>
                                     <label>
-                                        Email
+                                        Discord
                                     </label>
-                                    <input placeholder='example@mail.com' value={userInfo?.email} name='email' onChange={handleChange} type='email' required />
+                                    <input placeholder={userInfo?.name || "johnwick"} value={userInfo?.email} name='email' onChange={handleChange} type='email' />
                                 </div>
                                 <div className='inp-holder'>
                                     <label>
@@ -264,7 +271,7 @@ const SignUp = ({appState, setAppState}) => {
                                 </div>
                                 <div className='btn-holder'>
                                     <button className='btn fancy filled hover'>
-                                        Sign up with email
+                                        Connect Wallet
                                     </button>
                                 </div>
                             </form>

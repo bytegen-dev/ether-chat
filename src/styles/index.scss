@@ -5,7 +5,7 @@ $max-width: 1300px;
 $success: green;
 $ethereum-blue: #03A9F4;
 $crypto-orange: #FF8C00;
-$crypto-purple: #7A288A;
+$crypto-purple: #c63ae25e;
 $blue-variant: #45A0E6;
 $green-variant: #34C759;
 $neutral-gray: #455A64;
@@ -35,11 +35,11 @@ $primary-color: $ethereum-blue;
     top: 0;
     left: 0;
     overflow: hidden;
-    background-color: #fff;
+    background-color: $neutral-beige;
 }
 
 body{
-    background-color: #fff;
+    background-color: $neutral-beige;
     color: #fff;
     bottom: 30px;
 
@@ -93,7 +93,7 @@ body{
     top: 0;
     left: 0;
     overflow: hidden;
-    background-color: #fff;
+    background-color: $neutral-beige;
     color: #000;
 }
 
@@ -101,11 +101,11 @@ body{
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #fffc;
+    background-color: $neutral-beige !important;
     backdrop-filter: blur(10px);
     padding: 10px 5vw;
     width: 100%;
-    border-bottom: 1px solid #0002;
+    border-bottom: 2px solid #0001;
     z-index: 20;
     display: flex;
     justify-content: center;
@@ -141,13 +141,13 @@ body{
             min-width: max-content;
             @media screen and (max-width: 450px) {
                 min-width: fit-content;
-                width: 100%;
+                // width: 100%;
                 justify-content: center;
             }
 
             span{
                 background-color: $primary-color;
-                background-image: linear-gradient(145deg, $primary-color, #0008, $primary-color);
+                // background-image: linear-gradient(145deg, $crypto-orange, $ethereum-blue);
                 background-clip: text;
                 -webkit-background-clip: text;
                 color: $primary-color;
@@ -354,13 +354,16 @@ body{
 .menu{
     position: fixed;
     z-index: 110;
-    background-color: #fff;
+    background-color: rgba($neutral-beige, 0.8);
     right: 0;
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 250px;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     width: 80%;
     max-width: 300px;
@@ -392,11 +395,12 @@ body{
         right: 0;
         height: 100%;
         max-height: 100%;
-        width: 80%;
-        max-width: 300px;
+        width: 100%;
+        max-width: 1000px;
         border-radius: 0px;
         min-width: 200px !important;
-        opacity: 1;
+        opacity: 0;
+        transform: translateX(0);
 
         a{
             font-size: 25px !important;
@@ -433,21 +437,26 @@ body{
     .links-holder{
         display: flex;
         flex-direction: column;
+        align-items: stretch;
         width: 100%;
         gap: 5px !important;
         padding-top: 20px;
-        
+        // max-width: 250px;
+
         p{
             padding: 0;
-            width: 100%;
+            text-align: left;
+            // width: 100%;
 
             a{
                 border-radius: 10px;
                 background-color: transparent;
                 width: 100%;
                 padding: 10px 15px;
-                transition: all 0.4s ease;
+                transition: all 0.7s ease;
                 border: 1px solid #0000;
+                opacity: 0;
+                filter: blur(10px);
                 &:hover, &:active{
                     border: 1px solid #0002;
                 }
@@ -467,11 +476,63 @@ body{
         visibility: visible;
     transition: all 0.5s ease, scale 0.7s ease;
     transform: translateY(0) scale(1);
+
+    .links-holder{
+        p{
+            a{
+                opacity: 1;
+                filter: blur(0px);
+                transform: translateY(0px);
+
+            }
+
+            &:nth-child(1){
+                a{
+                    transition-delay: 0.1s;
+                }
+            }
+            &:nth-child(2){
+                a{
+                    transition-delay: 0.2s;
+                }
+            }
+            &:nth-child(3){
+                a{
+                    transition-delay: 0.3s;
+                }
+            }
+            &:nth-child(4){
+                a{
+                    transition-delay: 0.4s;
+                }
+            }
+            &:nth-child(5){
+                a{
+                    transition-delay: 0.5s;
+                }
+            }
+            &:nth-child(6){
+                a{
+                    transition-delay: 0.6s;
+                }
+            }
+            &:nth-child(7){
+                a{
+                    transition-delay: 0.7s;
+                }
+            }
+            &:nth-child(8){
+                a{
+                    transition-delay: 0.8s;
+                }
+            }
+        }
+    }
     }
 
     .hamburger{
         position: absolute;
-        top: 20px;
+        top: 15px;
         right: 20px;
         width: 40px;
         height: 40px;
@@ -540,7 +601,7 @@ body{
     z-index: 20;
     padding: 7px 20px;
     backdrop-filter: blur(10px);
-    background-color: #fffe;
+    background-color: rgba($neutral-beige, 0.9);
     border: 1px solid #0002;
     box-shadow: 0px 0px 10px #00000001;
     display: flex;
@@ -560,7 +621,7 @@ body{
         border-radius: 0px;
         border: none;
         padding: 15px 30px;
-        border-top: 1px solid #0004;
+        border-top: 2px solid #0001;
     }
 
     a{
@@ -670,11 +731,12 @@ body{
 
 .backdrop{
     position: fixed;
+    display: none;
     top: 0;
     left: 0;
-    background-color: #000a;
+    background-color: #0000;
     z-index: 100;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(15px);
     height: 100%;
     width: 100%;
     opacity: 0;
@@ -710,6 +772,7 @@ body{
     // display: none;
     animation-delay: 0.2s;
     opacity: 0;
+    background-color: $neutral-beige !important;
 
     @keyframes page-anim {
         0%{
@@ -768,7 +831,7 @@ body{
     .float-img{
         width: 100%;
         height: 500px;
-        background-image: url(../assets/dating-img-i.png);
+        background-image: url(../assets/logo-transparent.png);
         background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
@@ -777,9 +840,9 @@ body{
 
     .login--card{
         padding: 30px;
-        border: 2px solid #0001;
+        border: 1px solid #0002;
         border-radius: 10px;
-        box-shadow: 0px 0px 10px #00000009;
+        // box-shadow: 0px 0px 10px #00000009;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -872,7 +935,8 @@ body{
     }
 
     &.auth--page{
-        background-image: linear-gradient(185.93deg,#f9f9ff 2.72%,#fff 49.08%,#e9e6fe 96.9%);
+        // background-image: linear-gradient(185.93deg,$neutral-beige 2.72%,$neutral-beige 49.08%,$neutral-blue 96.9%);
+        // background-image: linear-gradient(185.93deg,$neutral-beige 2.72%,$neutral-beige 49.08%,$neutral-blue 96.9%);
         .heading{
             width: 100%;
             display: grid;
@@ -911,7 +975,7 @@ body{
                 .title_main {
                     width: 100%;
                     max-width: 470px;
-                    background-image: linear-gradient(0deg,rgba(133,122,244,.4),rgba(133,122,244,.4)),linear-gradient(0deg,#7397f2,#b7a9f8 51.56%,#f0dcfe);
+                    background-image: linear-gradient(0deg,$ethereum-blue,$crypto-purple),linear-gradient(0deg,$ethereum-blue,#b7a9f8 51.56%,#f0dcfe);
                     -webkit-background-clip: text;
                     background-clip: text;
                     font-size: 45px;
@@ -946,6 +1010,7 @@ body{
                             label{
                                 // font-size: 18px;
                                 font-weight: 500;
+                                margin-bottom: 5px;
 
                                 a{
                                     color: #565656;
@@ -1095,6 +1160,12 @@ body{
             justify-content: flex-start;
             align-items: center;
             gap: 30px;
+            
+            @media screen and (max-width: 700px) {
+                padding: 10px 0vw;
+                margin-bottom: 10px;
+                gap: 20px;
+            }
 
             .back{
                 width: 50px;
@@ -1106,6 +1177,13 @@ body{
                 align-items: center;
                 border-radius: 1000px;
                 cursor: pointer;
+
+                @media screen and (max-width: 700px){
+                    width: 40px;
+                    height: 40px;
+                    min-width: 40px;
+                    font-size: 14px;
+                }
             }
 
             .bar-holder{
@@ -1135,13 +1213,39 @@ body{
         }
         
         .big-bg{
-            height: 100%;
-            width: 100%;
-            max-height: 1000px;
-            background-image: url(../assets/dating-img-ii.png);
-            background-size: contain;
+            height: 300px;
+            width: 300px;
+            top: 50%;
+            left: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            // max-height: 700px;
+            background-image: url(../assets/ether-ii.png);
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            animation: glitch 2s ease forwards infinite alternate;
+        
+            @media screen and (max-width: 700px) {
+                width: 70vw;
+                height: 70vw;
+            }
+
+            @keyframes glitch {
+                0%{
+                    opacity: 0;
+                    filter: blur(10px);
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
+                85%{
+                    opacity: 1;
+                    filter: blur(0px);
+                }
+                100%{
+                    opacity: 1;
+                    filter: blur(0px);
+                }
+            }
         }
 
         .img-adder{
@@ -1256,12 +1360,12 @@ body{
             max-width: $max-width;
             max-width: 1200px;
             padding: 30px 0vw;
-            background-image: linear-gradient(#fff0, #fff  20%);
+            background-image: linear-gradient(#fff0, $neutral-beige  20%);
             padding-top: 50px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            gap: 10px;
+            gap: 20px;
 
             h2{
                 color: #222;
@@ -1332,16 +1436,17 @@ body{
             transition: background-color 0.5s ease;
             max-height: 300px;
             outline: none;
+            background-color: #00000005;
 
             &:hover, &:focus{
                 background-color: #0001;
             }
         }
-
+        
         textarea{
             min-height: 100px;
         }
-
+        
         .container{
             width: 100%;
         }
@@ -1369,7 +1474,7 @@ body{
                     flex-direction: column;
                     // border-bottom: 2px solid #0001;
                     width: 100vw;
-                    background-color: #fff;
+                    // background-color: #fff;
                     max-width: 1000vw;
                     align-items: center;
 
@@ -1467,11 +1572,11 @@ body{
             padding: 5px 5px;
             padding-right: 15px;
             position: fixed;
-            border: 1px solid #0002;
+            border: 2px solid #0002;
             border-radius: 1000px;
             // left: 5vw;
             top: 80px;
-            background-color: #fffe;
+            background-color: #fff4;
             backdrop-filter: blur(10px);
             
             p{
@@ -1495,7 +1600,7 @@ body{
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                border: 1px solid #0002;
+                border: 2px solid #0002;
                 background-color: #0001;
                 transition: all 0.5s ease;
 
@@ -1805,8 +1910,8 @@ body{
                 backdrop-filter: blur(20px);
                 justify-content: space-between;
                 max-width: 400px;
-                background-color: #fffd;
-                border: 1px solid #0002;
+                background-color: #fff3;
+                border: 1px solid #0004;
                 padding: 10px;
                 border-radius: 1000px;
 
@@ -1832,8 +1937,9 @@ body{
                     }
                     
                     &.active{
-                        border: 1px solid #0002;
+                        border: 2px solid #0002;
                         background-color: #0001;
+                        color: #000;
                     }
                 }
             }
@@ -2470,6 +2576,7 @@ body{
                             width: 100%;
                             min-width: 100%;
                             max-height: 300px;
+                            background-color: #0001;
 
                             &:focus{
                                 background-color: #0001;
@@ -3010,9 +3117,10 @@ body{
 }
 
 .user--card{
-    background-color: #fff;
+    // background-color: #fff3;
     border-radius: 0px;
-    box-shadow: 0px 0px 10px #0001;
+    border: 1px solid #0004;
+    // box-shadow: 0px 0px 10px #0001;
     display: flex;
     border: 1px solid #00000001;
     flex-direction: column;
@@ -3091,7 +3199,7 @@ body{
 
         img{
             width: 100%;
-            height: 150px;
+            height: 190px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -3126,8 +3234,8 @@ body{
         font-size: 12px;
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        background-color: #fff;
+        gap: 10px;
+        // background-color: #fff;
         padding-bottom: 6px;
 
         .online{
@@ -3142,11 +3250,12 @@ body{
             justify-content: flex-start;
             align-items: center;
             gap: 5px;
+            font-size: 16px;
         }
 
         .btn{
             font-size: 12px;
-            padding: 4px 15px;
+            padding: 7px 15px;
         }
     }
 
@@ -3156,6 +3265,7 @@ body{
         border: 1px solid #0002;
         animation: none;
         animation: scale-in 0.7s ease forwards !important;
+        gap: 20px;
         .top{
             img{
                 height: 300px;
@@ -3220,11 +3330,11 @@ body{
         max-width: 500px;
         height: 56px;
         border-radius: 42px;
-        background-image: linear-gradient(268.65deg,#8b4cdc 7.71%,#5579f7);
+        background-image: linear-gradient(268.65deg,$blue-variant 7.71%,$ethereum-blue);
         color: #fff;
         font-size: 20px;
         font-weight: 600;
-        box-shadow: 0 8px 24px rgba(226,54,154,.2);
+        box-shadow: 0 8px 24px rgba($blue-variant, 0.2);
     }
 }
 
@@ -3254,10 +3364,14 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fffd;
+    background-color: rgba($neutral-beige, 0.8);
     backdrop-filter: blur(10px);
     position: fixed;
     z-index: 100;
+
+    &.bg{
+        background-color: $neutral-beige;
+    }
 
     .container{
         display: flex;
@@ -3315,18 +3429,23 @@ body{
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
+    margin-bottom: 10px;
+    
+    @media screen and (max-width: 360px){
+        flex-wrap: wrap;
+    }
 
     .select{
-        padding: 10px 15px;
+        padding: 7px 15px;
         width: 100%;
         border-radius: 42px;
-        background-color: rgba(128,37,198,.2);
-        box-shadow: 0 2px 23px rgba(134,40,207,.2);
+        background-color: rgba($primary-color, 0.2);
+        // box-shadow: 0 2px 23px rgba(134,40,207,.2);
         transition: all 0.5s ease;
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 500;
         border: 2px solid transparent;
         

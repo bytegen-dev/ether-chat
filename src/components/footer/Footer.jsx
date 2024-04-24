@@ -1,60 +1,77 @@
 import React from 'react'
-import { FaCcDiscover, FaCcMastercard, FaCcPaypal, FaCcVisa } from 'react-icons/fa'
+import { FaCcDiscover, FaCcMastercard, FaCcPaypal, FaCcVisa, FaEthereum } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import logoEl from "../../assets/logo-transparent.png"
+import { FaBoltLightning } from 'react-icons/fa6'
 
 const Footer = () => {
   return (
-    <div className='footer'>
+    <div className='footer' style={{
+        marginBottom: "-70px"
+    }}>
         <div className='content'>
             <div className='section i'>
             <div className='logo-el'>
                 <img src={logoEl} height={80} />
-                LoveWorld™
+                Ether chat™
             </div>
                 <div className='spacer'></div>
-                <div className='sponsors'>
-                    <FaCcVisa />
-                    <FaCcMastercard />
-                    <FaCcPaypal />
-                    <FaCcDiscover />
+                <div className='sponsors' style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    rowGap: "20px",
+                }}>
+                    <FaEthereum />
+                    <FaEthereum />
+                    <FaEthereum />
+                    <FaEthereum />
+                    <FaEthereum />
+                    <FaEthereum />
                 </div>
             </div>
             <div className='section ii'>
                 <div className='head'>
                     <h3>
-                        ABOUT
+                        ABOUT <FaBoltLightning color='gold' />
                     </h3>
                 </div>
                 <div className='links-holder'>
-                    <Link to={"/about"}>About us</Link>
-                    <Link to={"/about"}>Community Guidelines</Link>
-                    <Link to={"/about"}>Online Dispute Resolution</Link>
-                    <Link to={"/about"}>FAQ</Link>
+                    <Link to={"https://github.com/"}>My Github</Link>
+                    <Link to={"https://twitter.com/isaacadxbayo"}>Twitter</Link>
+                    <Link to={"https://linkedin/in/bytegen-dev"}>Linkedin</Link>
+                    <Link to={"https://isaac-adebayo.vercel.app"}>Website</Link>
                 </div>
             </div>
             <div className='section iii'>
                 <div className='head'>
                     <h3>
-                        LEGAL TERMS
+                        MORE PROJECTS
                     </h3>
                 </div>
                 <div className='links-holder'>
-                    <Link to={"/about"}>Terms of use</Link>
-                    <Link to={"/about"}>Payment, Auto top-up and Refund Policy</Link>
-                    <Link to={"/about"}>Disclosures & Disclaimers</Link>
-                    <Link to={"/about"}>Anti-Scam Policy</Link>
+                    <Link to={"/"}>Ether chat</Link>
+                    <Link to={"https://cardano-chat.vercel.app"} style={{
+                        pointerEvents: "none",
+                        opacity: "0.4",
+                    }}>Cardano chat</Link>
+                    <Link to={"https://cardano-chat.vercel.app"} style={{
+                        pointerEvents: "none",
+                        opacity: "0.4",
+                    }}>Solana chat</Link>
+                    <Link to={"https://cnftshirt.io"}>CNFTshirt.io</Link>
+                    <Link to={"https://solana-is-king.vercel.app"}>$SIK</Link>
+                    <Link to={"https://deepsouth.ai"}>Deep South</Link>
                 </div>
             </div>
             <div className='section iv'>
                 <div className='head'>
                     <h3>
-                        PRIVACY POLICY
+                        Contact
                     </h3>
                 </div>
                 <div className='links-holder'>
-                    <Link to={"/about"}>Privacy policy</Link>
-                    <Link to={"/about"}>Cookie Policy</Link>
+                    <Link to={"t.me/isaac_developer"}>Telegram</Link>
+                    <Link to={"https://discord.com"}>Discord</Link>
                 </div>
             </div>
             <div className='section v'>
@@ -64,13 +81,12 @@ const Footer = () => {
                     </h3>
                 </div>
                 <div className='links-holder'>
-                    <Link to={"/about"}>support@loveworld.com</Link>
-                    <Link to={"/about"}>Unsubscribe</Link>
+                    <Link to={"/about"}>bytegen@gmail.com</Link>
                 </div>
             </div>
         </div>
         <div className='cprt'>
-            © 2024 TheLoveUniverse.com
+            © 2024 Etherchat
         </div>
     </div>
   )

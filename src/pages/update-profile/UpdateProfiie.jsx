@@ -359,15 +359,9 @@ const UpdateProfiie = ({appState, setAppState}) => {
                             </div>
                             <div className='inp-holder'>
                                 <label>
-                                    First Name
+                                    ABOUT ME
                                 </label>
-                                <input placeholder='Jane' value={userInfo?.firstName} onChange={handleChange} name='firstName' />
-                            </div>
-                            <div className='inp-holder'>
-                                <label>
-                                    Last Name
-                                </label>
-                                <input placeholder='Johnson' value={userInfo?.lastName} onChange={handleChange} type='text' name='lastName' />
+                                <input type='bio' placeholder='I hodl crypto' value={userInfo?.bio} onChange={handleChange} name='bio' />
                             </div>
                             <div className='inp-holder'>
                                 <label>
@@ -377,74 +371,25 @@ const UpdateProfiie = ({appState, setAppState}) => {
                             </div>
                             <div className='inp-holder'>
                                 <label>
-                                    OCCUPATION
+                                    IDENTIFY AS
                                 </label>
-                                <input type='text' placeholder='Work' value={userInfo?.occupation} onChange={handleChange} name='occupation' />
+                                <input type='text' placeholder='Superhero' value={userInfo?.gender} onChange={handleChange} name='gender' />
                             </div>
                             <div className='inp-holder'>
-                                <label>
-                                    RELATIONSHIP STATUS
-                                </label>
-                                <div className='select-holder'>
-                                    <Select
-                                        options={relationshipTypes}
-                                        value={selectedRelationship}
-                                        onChange={setSelectedRelationship}
-                                        placeholder="Single?"
-                                    />
-                                </div>
+                                <label>LOCATION</label>
+                                <input type='text' placeholder='The Moon' value={userInfo?.city} onChange={handleChange} name='city' />
                             </div>
                         </section>
                         <section>
                             <h3>
-                                LOCATION
-                            </h3>
-                            <div className='inp-holder'>
-                                <label>COUNTRY</label>
-                                <div className='select-holder'>
-                                    <Select
-                                        options={countries}
-                                        value={selectedCountry}
-                                        onChange={setSelectedCountry}
-                                        placeholder="Select Country"
-                                    />
-                                </div>
-                            </div>
-                            <div className='inp-holder'>
-                                <label>STATE</label>
-                                <div className='select-holder'>
-                                    <Select
-                                        options={states}
-                                        value={selectedState}
-                                        onChange={setSelectedState}
-                                        placeholder="Select State"
-                                        isDisabled={!selectedCountry}
-                                    />
-                                </div>
-                            </div>
-                            <div className='inp-holder'>
-                                <label>CITY</label>
-                                <div className='select-holder'>
-                                    <Select
-                                        options={cities}
-                                        value={selectedCity}
-                                        onChange={setSelectedCity}
-                                        placeholder="Select City"
-                                        isDisabled={!selectedState}
-                                    />
-                                </div>
-                            </div>
-                        </section>
-                        <section>
-                            <h3>
-                                MY PHOTOS <span style={{
+                                MY GALLERY <span style={{
                                     marginLeft: "20px",
                                     padding: "4px 10px",
                                     background: "#0001",
                                     borderRadius: "20px",
                                     border: "1px solid #0004",
                                     fontSize: "14px",
-                                }}>{gallery?.length}/5</span>
+                                }}>{gallery?.length}/3</span>
                             </h3>
                             <div className='input-holder img-btn'>
                             </div>
@@ -471,7 +416,7 @@ const UpdateProfiie = ({appState, setAppState}) => {
                                 display: "flex",
                                 gap: "10px",
                             }}>
-                                {gallery?.length < 5 && <label htmlFor='new-photo' className='btn filled small' style={{
+                                {gallery?.length < 3 && <label htmlFor='new-photo' className='btn filled small' style={{
                                     maxWidth: "200px",
                                 }}>
                                     Add a Photo

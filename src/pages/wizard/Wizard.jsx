@@ -29,14 +29,13 @@ const stages = [
 ]
 
 const goalsPossible=[
-    "chatting",
-    "finding a friend",
-    "having fun",
-    "get attention",
-    "i am bored",
-    "long term relationship",
-    "marriage",
-    "other"
+    "Chatting",
+    "Airdrops",
+    "Giveaways",
+    "Web3 jobs",
+    "Gift crypto",
+    "Romance 👀",
+    "Other"
 ]
 
 const Wizard = ({appState, setAppState}) => {
@@ -95,12 +94,9 @@ const Wizard = ({appState, setAppState}) => {
 
     const addGoal = (goal) => {
         setGoals((prevGoals) => {
-            // Check if the goal already exists in the array
             if (prevGoals.includes(goal)) {
-                // Goal exists, so we filter it out to remove it
                 return prevGoals.filter((goalx) => goalx !== goal);
             } else {
-                // Goal doesn't exist, so we add it to the list
                 return [...prevGoals, goal];
             }
         });
@@ -144,7 +140,7 @@ const Wizard = ({appState, setAppState}) => {
             <div className='bar'>
                 <div className='loaded' style={{
                     width: `${((currentStage?.id + 1.0)/stages?.length)*100}%`,
-                    backgroundColor: "green",
+                    backgroundColor: "#34C759",
                 }}></div>
             </div>
         </div>
@@ -208,7 +204,8 @@ const Wizard = ({appState, setAppState}) => {
             ...appState?.user,
             bio: info?.bio,
             goals,
-            credits: 30,
+            credits: 500,
+            tokens: 3000,
         }
         const file = image?.file
         setTimeout(()=>{
@@ -233,13 +230,13 @@ const Wizard = ({appState, setAppState}) => {
                 <div className='big-bg'></div>
                 <div className='bottom holder'>
                     <p className='progress'>
-                        Part {currentStage?.id + 1}/{stages?.length}
+                        Stage {currentStage?.id + 1}/{stages?.length}
                     </p>
                     <h2>
-                        Welcome to TheLoveUniverse™
+                        Welcome to Ether chat™
                     </h2>
                     <p>
-                        Please take this guide to complete your profile and use our site to its fullet
+                        Please take this guide to complete your profile and assist our algorithm ⚡
                     </p>
                     <div className='btn-holder'>
                         <button className='btn filled hover' onClick={()=>{
@@ -257,13 +254,15 @@ const Wizard = ({appState, setAppState}) => {
                     <h2>
                         What is your goal here?
                     </h2>
-                    <small>up to 3 answers</small>
+                    <small style={{
+                        border: "1px solid #03A9F422"
+                    }}>up to 4 answers</small>
                     <div className='goals'>
                         {goalsPossible.map((goal, index)=>{
                             return (
                                 <button className={`goal ${goals?.includes(goal) ? "selected" : ""}`} key={index} onClick={()=>{
                                     addGoal(goal)
-                                }} disabled={goals?.length >= 3 && !goals?.includes(goal)}>
+                                }} disabled={goals?.length >= 4 && !goals?.includes(goal)}>
                                     {goal}
                                 </button>
                             )
@@ -298,14 +297,14 @@ const Wizard = ({appState, setAppState}) => {
                 {progress}
                 <div className='instruction-holder'>
                     <h2>
-                        Tell others about yourself
+                        Brag about yourself a bit
                     </h2>
                     <small style={{
                         color: "#666",
                         backgroundColor: "transparent",
                         padding: "0",
                     }}>
-                        E.g. I love my job. But for me, there's nothing better than resting at a bar with my friends
+                        E.g. I am a Defi trader. I trade crypto for a Dubai prince 🙂
                     </small>
                     <textarea minLength={5} placeholder='Start typing here' required onChange={handleChange} name='bio' value={info?.bio} maxLength={300}></textarea>
                 </div>
@@ -337,14 +336,26 @@ const Wizard = ({appState, setAppState}) => {
                 {progress}
                 <div className='instruction-holder'>
                     <h2>
-                        Let's add your photo
+                        Let's add an image
                     </h2>
                     <small style={{
                         color: "#666",
                         backgroundColor: "transparent",
                         padding: "0",
                     }}>
-                        Profiles with photos catch way more attention. Do not hesitate to upload yours!
+                        An NFT or a picture of a $PET you love so much. Anything but nudes ✌
+                    </small>
+
+                    <small style={{
+                        color: "#0004",
+                        fontSize: "12px",
+                        backgroundColor: "transparent",
+                        padding: "0",
+                        fontWeight: "300"
+                    }}>
+                        <i>
+                            (in a future update users will be able to add an NFT directly from their  wallet)
+                        </i>
                     </small>
                     <div className='img-adder'>
                         {!image?.src ? <label htmlFor='image-add' className='hover'>

@@ -56,7 +56,7 @@ const Profile = ({appState, setAppState}) => {
                         <div className='bio'>
                             <b className='i'></b>
                             <p>
-                                {user?.bio}
+                                {user?.bio || `I am ${user?.name}`}
                             </p>
                             <b className='ii'></b>
                         </div>
@@ -69,14 +69,22 @@ const Profile = ({appState, setAppState}) => {
                                 <FaCoins style={{
                                     color: "gold",
                                 }} />
-                                <p style={{
+                                {user?.tokens > 10 ? <p style={{
                                     display: "flex",
                                     justifyContent: "center",
                                     alignItems: "center",
                                     gap: "10px",
                                 }}>
-                                    <b>{user?.credits || 0}</b> credits
-                                </p>
+                                    <b>{user?.tokens}</b> tokens
+                                </p> : <p style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    color: "red",
+                                }}>
+                                    <b>NO TOKENS LEFT</b>
+                                </p>}
                             </button>
                             {user?.likes?.length && <button>
                                 <FaThumbsUp />
@@ -106,7 +114,7 @@ const Profile = ({appState, setAppState}) => {
 
                     <section className='photos public'>
                         <h3>
-                            MY PUBLIC PHOTOS
+                            MY GALLERY
                         </h3>
                         {user?.gallery?.length ? <div className='photos-holder'>
                             {user?.gallery?.map((url, index)=>{
@@ -136,7 +144,7 @@ const Profile = ({appState, setAppState}) => {
                             </div>
                             <div className='basic'>
                                 <p>
-                                    City: <b>{user?.location?.city || user?.location?.state || "not specified"}</b>
+                                    City: <b>{user?.city || "somewhere"}</b>
                                 </p>
                             </div>
                             <div className='basic'>
@@ -146,7 +154,9 @@ const Profile = ({appState, setAppState}) => {
                             </div>
                             <div className='basic'>
                                 <p>
-                                    Occupation: <b>{user?.occupation || "not specified"}</b>
+                                    Identifies as: <b style={{
+                                        textTransform: "capitalize",
+                                    }}>{user?.gender || "organism"}</b>
                                 </p>
                             </div>
                         </div>

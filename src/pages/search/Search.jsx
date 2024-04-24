@@ -74,22 +74,26 @@ const Search = ({appState, setAppState}) => {
     <>
         {showFreeCredits && <div className='backdrop-container'>
             <div className='card'>
-                <button className='close-btn rotate hover' onClick={closeFreeCredits}>
+                {/* <button className='close-btn rotate hover' onClick={closeFreeCredits}>
                     <FaTimes />
-                </button>
+                </button> */}
                 <img className='circle' src={freeCoins} alt='' />
                 <h2>
-                    Welcome!
+                    Welcome
                 </h2>
                 <p>
-                    Here are <span>30 free credits</span> to get you started.
+                    Here are 3000 <span> $CHATGEN</span> tokens to get you started. You'll need tokens to create new Chats or Groups 🙂
                 </p>
-                <p>
-                    You'll need credits to chat with other users of <b>The Love Universe</b>
-                </p>
+                <i style={{
+                    fontSize: "12px",
+                    fontWeight: "300",
+                    color: "#0006"
+                }}>
+                    (Tokens prevent spamming hopefully and without spamming our free servers can last as long as possible)
+                </i>
                 <div className='btn-holder'>
                     <button className='btn green hover' onClick={closeFreeCredits}>
-                        Find Someone to chat
+                        Okay
                     </button>
                 </div>
             </div>

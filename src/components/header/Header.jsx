@@ -88,7 +88,7 @@ const Header = ({appState, setAppState}) => {
                 </div>
                 <div className='bottom'>
                     <p>
-                        © 2024 TheLoveUniverse™
+                        © 2024 Ether chat™
                     </p>
                 </div>
                 <div className='hamburger-holder'>
@@ -109,7 +109,7 @@ const Header = ({appState, setAppState}) => {
                     {(appState?.isLoggedIn && appState?.user?.isProfileCompleted) &&  <div className='hamburger-holder'>
                         <Link to={"/mails"} className='hamburger small'>
                             {pathname === "/mails" ? <FaBell style={{
-                                color: "#5e30d3"
+                                color: "#03A9F4"
                             }} /> : <FaRegBell />}
                             {unreadNotifications?.length ? <div className='dot'></div> : <></>}
                         </Link>
@@ -120,7 +120,7 @@ const Header = ({appState, setAppState}) => {
                         }
                     }>
                         <img src={logoEl} />
-                        The <span>Love</span> Universe™
+                        <span>Ether</span> chat™
                         {/* <span>X</span> Universe<small style={{fontSize: "12px", marginLeft: "-9px"}}>™</small> */}
                     </Link>
                     {(showMore || !appState?.isLoggedIn) && <>

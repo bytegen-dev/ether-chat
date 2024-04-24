@@ -31,23 +31,18 @@ import BuyCredits from './components/buy-credits-popup/BuyCredits';
 
 const notLoggedInLinks = [
   {
-    title: "Get Started",
+    title: "Connect Wallet",
     to: "/"
   },
   {
-    title: "Login",
+    title: "My Github",
     isLink: false,
-    to: "/auth/login",
+    to: "https://github.com/bytegen-dev",
   },
   {
-    title: "Terms & Conditions",
-    isLink: false,
-    to: "/terms",
-  },
-  {
-    title: "Follow Us",
+    title: "Learn more",
     isLink: true,
-    to: "https://x.com",
+    to: "https://x.com/isaacadxbayo",
   },
 ]
 
@@ -57,21 +52,21 @@ const loggedInLinks = [
     to: "/search",
   },
   {
-    title: "Mails",
-    to: "/mails",
+    title: "Messages",
+    to: "/chats",
   },
   {
     title: "People",
     to: "/people",
   },
   {
-    title: "Follow Us",
-    to: "https://x.com",
-    isLink:true,
-  },
-  {
     title: "Account",
     to: "/account",
+  },
+  {
+    title: "Github",
+    to: "https://github.com/bytegen-dev",
+    isLink:true,
   },
 ]
 
