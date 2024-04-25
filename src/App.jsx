@@ -159,6 +159,7 @@ const App = () => {
 
   useEffect(()=>{
     if(appState.isLoggedIn){
+      localStorage?.setItem("was-logged-in", true)
       function trackUserConnectionStatus(userId) {
         const database = getDatabase();
         const userStatusDatabaseRef = ref(database, '/status/' + userId);
@@ -285,97 +286,125 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    const wasLoggedIn = localStorage?.getItem("was-logged-in")
     const checkWalletConnected = async () => {
       if (window.ethereum && window.ethereum.isConnected()) {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const walletAddress = accounts[0];
-
-        const createUserProfileDocument = async (details, walletAddress) => {
-          try{
-              const res = await setDoc(doc(firestore, "users", walletAddress), {
-                ...details,
-                uid: walletAddress,
-                walletAddress,
-                ethAddress: walletAddress,
-              });
-              console.log(walletAddress)
-              console.log(res)
-              // navigate('/setup-wizard');
-              if(res){
-                  setAppState((prev)=>{
-                      return(
-                          {
-                              ...prev,
-                              isBigLoading: false,
-                              isLoggedIn: true,
-                              user: {
-                                  ...details,
-                                  uid: walletAddress,
-                                  walletAddress,
-                              },
-                          }
-                      )
-                  })
-              }
-          } catch(error){
-              console.error(error)
-              throw error
-          }
-      };
+        try{
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const walletAddress = accounts[0];
   
-      const handleSubmit = async ()=>{
-          try {
-              if(walletAddress){
-                  setAppState((prev)=>{
-                      return ({
-                          ...prev,
-                          walletAddress,
-                      })
-                  });
-                  const userDoc = doc(firestore, 'users', walletAddress);
-                  const docSnap = await getDoc(userDoc);
-                  const userData = docSnap.data()
-              
-                  if (userData) {
+          const createUserProfileDocument = async (details, walletAddress) => {
+            try{
+                const res = await setDoc(doc(firestore, "users", walletAddress), {
+                  ...details,
+                  uid: walletAddress,
+                  walletAddress,
+                  ethAddress: walletAddress,
+                });
+                console.log(walletAddress)
+                console.log(res)
+                // navigate('/setup-wizard');
+                if(res){
+                    setAppState((prev)=>{
+                        return(
+                            {
+                                ...prev,
+                                isBigLoading: false,
+                                isLoggedIn: true,
+                                user: {
+                                    ...details,
+                                    uid: walletAddress,
+                                    walletAddress,
+                                },
+                            }
+                        )
+                    })
+                }
+            } catch(error){
+                console.error(error)
+                throw error
+            }
+          };
+      
+          const handleSubmit = async ()=>{
+              try {
+                  if(walletAddress){
                       setAppState((prev)=>{
                           return ({
                               ...prev,
-                              isLoggedIn: true,
-                              user: userData,
-                              isBigLoading: false,
                               walletAddress,
-                            })
-                        });
-                  } else {
-                      await createUserProfileDocument(details, walletAddress);
+                          })
+                      });
+                      const userDoc = doc(firestore, 'users', walletAddress);
+                      const docSnap = await getDoc(userDoc);
+                      const userData = docSnap.data()
+                  
+                      if (userData) {
+                          setAppState((prev)=>{
+                              return ({
+                                  ...prev,
+                                  isLoggedIn: true,
+                                  user: userData,
+                                  isBigLoading: false,
+                                  walletAddress,
+                                })
+                            });
+                      } else {
+                          await createUserProfileDocument(details, walletAddress);
+                      }
+                    } else{
+                      setAppState((prev)=>{
+                          return(
+                              {
+                                  ...prev,
+                                  isLoading: false,
+                              }
+                          )
+                      })
+                      setError("Install Metamask")
                   }
-                } else{
+              } catch (error) {
+                  console.error(error);
                   setAppState((prev)=>{
                       return(
                           {
                               ...prev,
-                              isLoading: false,
+                              isBigLoading: false,
                           }
                       )
                   })
-                  setError("Install Metamask")
               }
-          } catch (error) {
-              console.error(error);
-              setAppState((prev)=>{
-                  return(
-                      {
-                          ...prev,
-                          isBigLoading: false,
-                      }
-                  )
-              })
           }
-      }
-
-      if(walletAddress){
-        handleSubmit()
-      }
+  
+          if(walletAddress){
+            handleSubmit()
+          } else{
+            setAppState((prev)=>{
+              return ({
+                ...prev,
+                isBigLoading: false
+              })
+            })
+            localStorage?.setItem("was-logged-in", false)
+          }
+          
+        } catch(error){
+          setAppState((prev)=>{
+            return ({
+              ...prev,
+              isBigLoading: false
+            })
+          })
+          navigate("/")
+          localStorage?.setItem("was-logged-in", false)
+        }
+      } else{
+        setAppState((prev)=>{
+          return ({
+            ...prev,
+            isBigLoading: false
+          })
+        })
       }
     };
 
@@ -388,18 +417,31 @@ const App = () => {
             user: userTemplate,
           })
         })
+        localStorage?.setItem("was-logged-in", false)
         navigate("/auth/login", {replace: true})
       } else {
         checkWalletConnected();
       }
     };
 
-    checkWalletConnected();
+    if(wasLoggedIn){
+      checkWalletConnected();
+    }
 
-    window.ethereum.on('accountsChanged', handleAccountsChanged);
+    if(!window?.ethereum){
+      setAppState((prev)=>{
+        return ({
+          ...prev,
+          isBigLoading: false
+        })
+      })
+    }
+    if(window?.ethereum){
+      window?.ethereum.on('accountsChanged', handleAccountsChanged);
+    }
 
     return () => {
-      window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      window?.ethereum?.removeListener('accountsChanged', handleAccountsChanged);
     };
   }, []);
 
