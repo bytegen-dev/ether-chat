@@ -1638,8 +1638,25 @@ body{
                     max-width: 1000vw;
                     align-items: center;
 
+                    .title-holder{
+                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
                     h3{
+                        text-align: center;
                         font-size: 30px;
+                        margin-bottom: 15px;
+                    }
+                    
+                    p{
+                        width: 85%;
+                        color: #444;
+                        margin-bottom: 15px;
+                        text-align: center;
+                        font-size: 15px;
                     }
 
                     .space-btwn{
@@ -1692,6 +1709,51 @@ body{
                             height: 30px;
                             width: 30px;
                             padding: 0;
+                        }
+                    }
+                }
+
+                .search-bar{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+
+                    form{
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        margin-top: 10px;
+
+                        input{
+                            width: 90%;
+                            padding: 5px 15px;
+                            min-height: 40px;
+                            border-radius: 100px;
+                            border: 1px solid #0003;
+                            background-color: #0001;
+                        }
+                    }
+                    .drop-filter{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        gap: 5px;
+
+                        .filter{
+                            padding: 5px 10px;
+                            border-radius: 1000px;
+                            border: 1px solid #0004;
+                            background-color: #0001;
+                            font-size: 14px;
+                            
+                            &.active{
+                                text-transform: capitalize;
+                                background-color: #000a;
+                                color: #fff;
+                            }
                         }
                     }
                 }

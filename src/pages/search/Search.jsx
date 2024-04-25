@@ -15,6 +15,15 @@ const Search = ({appState, setAppState}) => {
         "following",
     ]
 
+    const searchFilters = [
+        "airdrops",
+        "web3 jobs",
+        "groups",
+        "people",
+    ]
+
+    const [searchFilter, setSearchFilter] = useState(null)
+
     const usersx = appState?.users
     const users = usersx?.filter((userx)=>{
         return userx?.uid !== user?.uid
@@ -103,10 +112,34 @@ const Search = ({appState, setAppState}) => {
                 <section className='top--section'>
                     <div className='title-holder'>
                         <h3>
-                            Profiles
+                            Search
                         </h3>
+                        <p>
+                            search the servers for Memes, job roles, groups and random people 🙂
+                        </p>
                     </div>
-                    <div className='space-btwn'>
+
+                    <div className='search-bar'>
+                        <form onSubmit={(e)=>{
+                            e.preventDefault()
+                        }}>
+                            <input type='search' placeholder={`${!searchFilter ? "Select a filter" : ""} ${searchFilter === "airdrops" ? "Explore new Airdrops" : ""}${searchFilter === "web3 jobs" ? "e.g Solidity developer" : ""}${searchFilter === "groups" ? "Defi traders connect" : ""}${searchFilter === "people" ? "Search by name or eth address" : ""}`} />
+                        </form>
+                        <div className='drop-filter'>
+                            {searchFilters?.map((filter, index)=>{
+                                return (
+                                    <button key={index} className={`filter ${searchFilter === filter ? "active" : ""}`} onClick={()=>{
+                                        setSearchFilter(filter)
+                                    }}>
+                                        {filter}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </section>
+                {searchFilter === "people" && <>
+                    {/* <div className='space-btwn'>
                         <div className='filter-holder'>
                             {filters?.map((filter, index)=>{
                                 return (
@@ -118,23 +151,17 @@ const Search = ({appState, setAppState}) => {
                                 )
                             })}
                         </div>
-                        {/* <div className='btn-holder'>
-                            <p>Filters</p>
-                            <button className='filter-btn'>
-                                <IoFilter/>
-                            </button>
-                        </div> */}
-                    </div>
-                </section>
-                <section className='users--section'>
-                    <div className='users-holder'>
-                        {visibleUsers?.map((user, index)=>{
-                            return (
-                                <UserCard index={index} user={user} key={index} appState={appState} setAppState={setAppState} />
-                            )
-                        })}
-                    </div>
-                </section>
+                    </div> */}
+                    <section className='users--section'>
+                        <div className='users-holder'>
+                            {visibleUsers?.map((user, index)=>{
+                                return (
+                                    <UserCard index={index} user={user} key={index} appState={appState} setAppState={setAppState} />
+                                )
+                            })}
+                        </div>
+                    </section>
+                </>}
             </div>
         </div>
     </>
