@@ -243,7 +243,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
         messagesEndRef.current.scrollIntoView({ behavior: "instant", block: 'end' });
         setIsFetched(true)
     }
-  }, [appState?.isLoggedIn, chat?.messages]);
+  }, [appState?.isLoggedIn, chat?.messages, messagesEndRef]);
 
     return (
         <>

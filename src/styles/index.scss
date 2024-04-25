@@ -892,13 +892,7 @@ body{
     }
 }
 
-img{
-    background-image: url(../assets/image-gallery-w.png);
-    background-color: #0001;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 30px !important;
-}
+
 
 .page{
     position: fixed;
@@ -2213,6 +2207,14 @@ img{
                 width: 30px;
             }
 
+            img{
+                background-image: url(../assets/image-gallery-w.png);
+                background-color: #0001;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 30px !important;
+            }
+
             .chat{
                 display: flex;
                 justify-content: center;
@@ -3400,6 +3402,14 @@ img{
         100%{
             opacity: 1;
         }
+    }
+
+    img{
+        background-image: url(../assets/image-gallery-w.png);
+        background-color: #0001;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 30px !important;
     }
 
     .top{
