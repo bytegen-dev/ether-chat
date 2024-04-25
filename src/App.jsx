@@ -282,13 +282,13 @@ const App = () => {
   },[pathname])
 
   useEffect(() => {
-    
-  }, []);
-
-  useEffect(() => {
     const wasLoggedIn = localStorage?.getItem("was-logged-in")
     const checkWalletConnected = async () => {
-      if (window.ethereum && window.ethereum.isConnected()) {
+      const wasLoggedIn = localStorage?.getItem("was-logged-in")
+      if(wasLoggedIn === "false"){
+        return
+      }
+      if (window.ethereum && window.ethereum.isConnected() && wasLoggedIn === "true") {
         try{
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           const walletAddress = accounts[0];
@@ -406,9 +406,11 @@ const App = () => {
           })
         })
       }
+    
     };
 
     const handleAccountsChanged = async (accounts) => {
+      const wasLoggedIn = localStorage?.getItem("was-logged-in")
       if (accounts.length === 0) {
         setAppState((prev)=>{
           return ({
@@ -418,14 +420,33 @@ const App = () => {
           })
         })
         localStorage?.setItem("was-logged-in", false)
+        setTimeout(()=>{
+          localStorage?.setItem("was-logged-in", false)
+        }, 1000)
         navigate("/auth/login", {replace: true})
       } else {
-        checkWalletConnected();
+        if(wasLoggedIn === "true"){
+          checkWalletConnected();
+        } else{
+          setAppState((prev)=>{
+            return ({
+              ...prev,
+              isBigLoading: false
+            })
+          })
+        }
       }
     };
 
-    if(wasLoggedIn){
+    if(wasLoggedIn === "true"){
       checkWalletConnected();
+    } else{
+      setAppState((prev)=>{
+        return ({
+          ...prev,
+          isBigLoading: false
+        })
+      })
     }
 
     if(!window?.ethereum){
