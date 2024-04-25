@@ -235,9 +235,13 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
 
   const messagesEndRef = useRef(null);
 
+
+  const [isFetched, setIsFetched] = useState(false)
+
   useLayoutEffect(() => {
-    if (messagesEndRef?.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "instant", block: 'end' });
+    if (messagesEndRef?.current && !isFetched && chat?.messages?.length) {
+        messagesEndRef.current.scrollIntoView({ behavior: "instant", block: 'end' });
+        setIsFetched(true)
     }
   }, [appState?.isLoggedIn, chat?.messages]);
 
