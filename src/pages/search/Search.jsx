@@ -5,6 +5,7 @@ import freeCoins from "../../assets/free-coin.png"
 import { FaTimes } from 'react-icons/fa'
 import { IoFilter } from "react-icons/io5";
 import UserCard from '../../components/user/UserCard'
+import { FaFaceSmile } from 'react-icons/fa6'
 
 const Search = ({appState, setAppState}) => {
     const user = appState?.user
@@ -16,8 +17,8 @@ const Search = ({appState, setAppState}) => {
     ]
 
     const searchFilters = [
-        "airdrops",
         "web3 jobs",
+        "memes",
         "groups",
         "people",
     ]
@@ -66,6 +67,12 @@ const Search = ({appState, setAppState}) => {
             setShowFreeCredits(true)
         }
     },[user])
+
+    const [searchInput, setSearchInput] = useState("")
+
+    useEffect(()=>{
+        setSearchInput("")
+    },[searchFilter])
 
     const thisUser = appState?.user
 
@@ -123,7 +130,9 @@ const Search = ({appState, setAppState}) => {
                         <form onSubmit={(e)=>{
                             e.preventDefault()
                         }}>
-                            <input type='search' placeholder={`${!searchFilter ? "Select a filter" : ""} ${searchFilter === "airdrops" ? "Explore new Airdrops" : ""}${searchFilter === "web3 jobs" ? "e.g Solidity developer" : ""}${searchFilter === "groups" ? "Defi traders connect" : ""}${searchFilter === "people" ? "Search by name or eth address" : ""}`} />
+                            <input type='search' disabled={!searchFilter} name='Search' value={searchInput} onChange={(e)=>{
+                                setSearchInput(e.target.value)
+                            }} placeholder={`${!searchFilter ? "Select a filter" : ""} ${searchFilter === "memes" ? "Explore random memes" : ""}${searchFilter === "web3 jobs" ? "e.g Solidity developer" : ""}${searchFilter === "groups" ? "Defi traders connect" : ""}${searchFilter === "people" ? "Search by name or eth address" : ""}`} />
                         </form>
                         <div className='drop-filter'>
                             {searchFilters?.map((filter, index)=>{
@@ -138,21 +147,57 @@ const Search = ({appState, setAppState}) => {
                         </div>
                     </div>
                 </section>
+                {searchFilter === "memes" && <>
+                    <section className='users--section render--section'>
+                        <h3>
+                            Memes 😎
+                        </h3>
+                        <p className='dim'>
+                            nothing here yet
+                        </p>
+                    </section>
+                
+                </>}
+                {searchFilter === "groups" && <>
+                    <section className='users--section render--section'>
+                        <h3>
+                            Groups 👥
+                        </h3>
+                        <p className='dim'>
+                            nothing here yet
+                        </p>
+                    </section>
+                
+                </>}
+                {searchFilter === "web3 jobs" && <>
+                    <section className='users--section render--section'>
+                        <h3>
+                            Web3.0 jobs 🚀
+                        </h3>
+                        <p className='dim'>
+                            nothing here yet
+                        </p>
+                    </section>
+                
+                </>}
                 {searchFilter === "people" && <>
-                    {/* <div className='space-btwn'>
-                        <div className='filter-holder'>
-                            {filters?.map((filter, index)=>{
-                                return (
-                                    <button key={index} className={`filter ${currentFilter === filter ? "active" : ""}`} onClick={()=>{
-                                        setCurrentFilter(filter)
-                                    }}>
-                                        {filter}
-                                    </button>
-                                )
-                            })}
+                    <section className='users--section render--section'>
+                        <h3>
+                            People 👤
+                        </h3>
+                        <div className='space-btwn'>
+                            <div className='filter-holder'>
+                                {filters?.map((filter, index)=>{
+                                    return (
+                                        <button key={index} className={`filter ${currentFilter === filter ? "active" : ""}`} onClick={()=>{
+                                            setCurrentFilter(filter)
+                                        }}>
+                                            {filter}
+                                        </button>
+                                    )
+                                })}
+                            </div>
                         </div>
-                    </div> */}
-                    <section className='users--section'>
                         <div className='users-holder'>
                             {visibleUsers?.map((user, index)=>{
                                 return (
