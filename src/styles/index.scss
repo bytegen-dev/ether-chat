@@ -5,7 +5,7 @@ $max-width: 1300px;
 $success: green;
 $ethereum-blue: #03A9F4;
 $crypto-orange: #FF8C00;
-$crypto-purple: #c63ae25e;
+$crypto-purple: #c63ae2c1;
 $blue-variant: #45A0E6;
 $green-variant: #34C759;
 $neutral-gray: #455A64;
@@ -35,6 +35,10 @@ $primary-color: $ethereum-blue;
     top: 0;
     left: 0;
     overflow: hidden;
+    background-color: $neutral-beige;
+}
+
+html{
     background-color: $neutral-beige;
 }
 
@@ -1127,7 +1131,7 @@ body{
                 display: flex;
                 flex-direction: column;
                 gap: 30px;
-
+                
                 h1{
                     font-size: 40px;
                 }
@@ -1135,7 +1139,7 @@ body{
                 .title_main {
                     width: 100%;
                     max-width: 470px;
-                    background-image: linear-gradient(0deg,$ethereum-blue,$crypto-purple),linear-gradient(0deg,$ethereum-blue,#b7a9f8 51.56%,#f0dcfe);
+                    background-image: linear-gradient(90deg,$ethereum-blue,$crypto-purple);
                     -webkit-background-clip: text;
                     background-clip: text;
                     font-size: 45px;
@@ -1144,6 +1148,9 @@ body{
                 }
 
                 .signup--card{
+                    border: 1px solid #0002;
+                    padding: 20px 16px;
+                    border-radius: 20px;
                     form{
                         display: flex;
                         justify-content: flex-start;
@@ -1276,14 +1283,22 @@ body{
             }
             
             @media screen and (max-width: 600px) {
-                padding-top: 20px;
+                padding-top: 30px;
+                h1{
+                    text-align: center;
+                }
+                .right{
+                    height: 250px;
+                    margin-top: -20px;
+                }
                 .float-img{
-                    height: 300px;
+                    height: 250px;
                 }
 
                 .title_main{
                     font-size: 38px !important;
                 }
+            
             }
         }
     }
@@ -1393,7 +1408,7 @@ body{
 
             @keyframes glitch {
                 0%{
-                    opacity: 0;
+                    opacity: 0.4;
                     filter: blur(10px);
                     transform: translate(-50%, -50%) scale(1.1);
                 }
@@ -1623,6 +1638,36 @@ body{
             align-items: center;
             padding-bottom: 100px;
             // padding-right: 5vw;
+
+            .eth-image{
+                margin-top: 20px;
+                margin-bottom: 90px;
+                width: 250px;
+                img{
+                    width: 100%;
+                    animation: glitch 1.5s ease forwards infinite alternate;
+                }
+                @media screen and (max-width: 700px) {
+                    width: 60vw;
+                    max-width: 200px;
+                    // height: 70vw;
+                }
+    
+                @keyframes glitch {
+                    0%{
+                        opacity: 0.4;
+                        filter: blur(10px);
+                    }
+                    85%{
+                        opacity: 1;
+                        filter: blur(0px);
+                    }
+                    100%{
+                        opacity: 1;
+                        filter: blur(0px);
+                    }
+                }
+            }
 
             section{
                 max-width: 1000px;

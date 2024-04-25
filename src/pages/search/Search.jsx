@@ -6,6 +6,7 @@ import { FaTimes } from 'react-icons/fa'
 import { IoFilter } from "react-icons/io5";
 import UserCard from '../../components/user/UserCard'
 import { FaFaceSmile } from 'react-icons/fa6'
+import ethImg from "../../assets/ether-ii.png"
 
 const Search = ({appState, setAppState}) => {
     const user = appState?.user
@@ -147,6 +148,11 @@ const Search = ({appState, setAppState}) => {
                         </div>
                     </div>
                 </section>
+                {!searchFilter && <>
+                    <div className='eth-image'>
+                        <img src={ethImg} alt='' />
+                    </div>
+                </>}
                 {searchFilter === "memes" && <>
                     <section className='users--section render--section'>
                         <h3>

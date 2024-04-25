@@ -194,7 +194,7 @@ const Profile = ({appState, setAppState}) => {
                                 <p>
                                     ETH address: <b style={{
                                         textTransform: "capitalize"
-                                    }}>{user?.ethAddress || "0x...34"}</b>
+                                    }}>{(`${user?.ethAddress?.slice(0,4)}...${user?.ethAddress?.slice(-3,-1)}`) || "0x...34"}</b>
                                 </p>
                             </div>
                         </div>
@@ -250,7 +250,7 @@ const Profile = ({appState, setAppState}) => {
                         </div>
                     </section>}
 
-                    <section className='actions-holder' style={{
+                    {/* <section className='actions-holder' style={{
                         alignItems: "center",
                         display: "flex",
                         justifyContent: "center",
@@ -263,23 +263,10 @@ const Profile = ({appState, setAppState}) => {
                         }} onClick={()=>{
                             const confirm = window.confirm("Are you sure?")
                             if(confirm){
-                                signOut(auth).then(() => {
-                                // Sign-out successful.
-                                console.log('Logout successful');
-                                navigate("/auth/login")
-                                }).catch((error) => {
-                                // An error happened.
-                                console.error('Logout failed', error);
-                                });
+                                alert("Disconnect your Wallet from this Website")
                             }
                         }}>Logout</button>
-                        {/* <Link className='btn filled hover' to={`/delete`} style={{
-                            background: "red",
-                            fontSize: "14px",
-                            width: "fit-content",
-                            padding: "10px 20px",
-                        }}><IoTrash />Delete My Account</Link> */}
-                    </section>
+                    </section> */}
 
                 </div>
             </div>}

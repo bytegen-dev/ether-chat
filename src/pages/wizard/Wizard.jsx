@@ -156,6 +156,7 @@ const Wizard = ({appState, setAppState}) => {
             })
         })
         const thisUser = appState?.user
+        console.log(appState)
         try{
             let profileImageUrl = thisUser?.profileImageUrl || ""
             if(file){
@@ -168,12 +169,12 @@ const Wizard = ({appState, setAppState}) => {
 
             // console.log(thisUser, profileImageUrl)
 
-            const userDoc = doc(firestore, 'users', thisUser?.uid);
+            const userDoc = doc(firestore, 'users', thisUser?.walletAddress);
             await updateDoc(userDoc, {
                 ...details,
                 ...(profileImageUrl && { profileImageUrl, }),
                 isProfileCompleted: true,
-                uid: thisUser?.uid,
+                uid: thisUser?.uid || thisUser?.walletAddress,
             });
             setAppState((prev)=>{
                 return(

@@ -5,7 +5,8 @@ import Footer from '../../components/footer/Footer'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, firestore } from '../../firebaseConfig'
 import ErrorComponent from '../../components/error/ErrorComponent'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
+import ethImg from "../../assets/ether-ii.png"
 
 const Login = ({appState, setAppState}) => {
     const [userInfo, setUserInfo] = useState({
@@ -37,43 +38,129 @@ const Login = ({appState, setAppState}) => {
 
     const navigate = useNavigate()
 
-    const handleSubmit = async(e)=>{
+    const createUserProfileDocument = async (details, walletAddress) => {
+        try{
+            const res = await setDoc(doc(firestore, "users", walletAddress), {
+              ...details,
+              uid: walletAddress,
+              walletAddress,
+              ethAddress: walletAddress,
+            });
+            console.log(walletAddress)
+            console.log(res)
+            // navigate('/setup-wizard');
+            if(res){
+                setAppState((prev)=>{
+                    return(
+                        {
+                            ...prev,
+                            isLoading: false,
+                            isLoggedIn: true,
+                            user: {
+                                ...details,
+                                uid: walletAddress,
+                                walletAddress,
+                            },
+                        }
+                    )
+                })
+            }
+        } catch(error){
+            console.error(error)
+            throw error
+        }
+    };
+
+    const handleConnectWallet = async () => {
+        if (!window.ethereum) {
+          return;
+        }
+    
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const walletAddress = accounts[0];
+    
+          return walletAddress
+        } catch (error) {
+          console.error('Error connecting wallet:', error);
+        //   alert('Failed to connect wallet. Please try again.');
+        }
+    };
+
+    const handleSubmit = async (e)=>{
         e.preventDefault()
-        const {email, password} = userInfo
+        setError(null)
+        
+        // const {email, password, name, gender, birthday} = userInfo
+        
+        const details = userInfo
+
         setAppState((prev)=>{
             return ({
                 ...prev,
-                isLoading: true
+                isLoading: true,
             })
         })
-        setError(null);
         
         try {
-            // Sign in with email and password
             setAppState((prev)=>{
-                return ({
-                    ...prev,
-                    isLoading: true
-                })
+                return(
+                    {
+                        ...prev,
+                        isLoading: true,
+                    }
+                )
             })
-            await signInWithEmailAndPassword(auth, email, password);
-            setAppState((prev)=>{
-                return ({
-                    ...prev,
-                    isLoading: false
+            const walletAddress = await handleConnectWallet();
+            if(walletAddress){
+                setAppState((prev)=>{
+                    return ({
+                        ...prev,
+                        walletAddress,
+                    })
+                });
+                const userDoc = doc(firestore, 'users', walletAddress);
+                const docSnap = await getDoc(userDoc);
+                const userData = docSnap.data()
+            
+                if (userData) {
+                    setAppState((prev)=>{
+                        return ({
+                            ...prev,
+                            isLoggedIn: true,
+                            user: userData,
+                            isLoading: false,
+                            walletAddress,
+                        })
+                    });
+                    navigate('/', {
+                        replace: true
+                    });
+                } else {
+                    await createUserProfileDocument(details, walletAddress);
+                }
+            } else{
+                setAppState((prev)=>{
+                    return(
+                        {
+                            ...prev,
+                            isLoading: false,
+                        }
+                    )
                 })
-            })
-            navigate("/")
-            // On successful login, you can redirect the user or do other actions
-            console.log('Logged in successfully');
+                setError("Cancelled")
+            }
         } catch (error) {
+            console.error(error);
             setAppState((prev)=>{
-                return ({
-                    ...prev,
-                    isLoading: false
-                })
+                return(
+                    {
+                        ...prev,
+                        isLoading: false,
+                    }
+                )
             })
-            setError(error.message);
+            setError(error.message)
         }
     }
 
@@ -127,46 +214,41 @@ const Login = ({appState, setAppState}) => {
     return (
     <div className='page login--page auth--page'>
         <div className='container '>
-            <section className='page--section'>
-                <div className='login--card'>
-                    <h2>Login into LoveWorld</h2>
+            <section className='page--section' style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <div className='login--card' style={{
+                    maxWidth: "500px"
+                }}>
+                    <h2 style={{
+                        textAlign: "center",
+                        marginBottom: "20px",
+                    }}>Continue to Ether chat</h2>
                     {error && <ErrorComponent error={error} />}
                     <form onSubmit={handleSubmit}>
-                        <div className='inp-holder'>
-                            <label>
-                                Email
-                            </label>
-                            <input value={userInfo?.email} name='email' onChange={handleChange} placeholder='Your Email' type='email' required />
+                        <div className='divider'>
+                            <p className='center' style={{
+                                backgroundColor: "transparent",
+                                backdropFilter: "blur(10px)"
+                            }}><img src={ethImg} width={"30px"} /></p>
                         </div>
-                        <div className='inp-holder'>
-                            <label>
-                                Password
-                            </label>
-                            <input placeholder='Your Password' type='password' required name='password' onChange={handleChange} />
-                        </div>
-                        {/* <div className='actions-holder'>
-                            <Link to={"/forgot-password"}>Forgot your password?</Link>
-                        </div> */}
                         <div className='btn-holder'>
                             <button className='btn fancy filled hover'>
-                                Log in
+                                Connect Wallet
                             </button>
                         </div>
                     </form>
-                    <div className='divider'>
-                        <p className='center' style={{
-                            backgroundColor: "transparent",
-                            backdropFilter: "blur(10px)"
-                        }}>or</p>
-                    </div>
+                    {/* 
                     <div className='actions'>
                         <button className='btn filled white icon-big outline hover' onClick={googleSignIn}>
                             <FaGoogle />
                             Sign In with Google
                         </button>
-                    </div>
+                    </div> */}
                 </div>
-                <div className='float-img'></div>
+                {/* <div className='float-img'></div> */}
             </section>
             <Footer />
         </div>

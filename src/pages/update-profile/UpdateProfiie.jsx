@@ -361,6 +361,16 @@ const UpdateProfiie = ({appState, setAppState}) => {
                             </div>
                             <div className='inp-holder'>
                                 <label>
+                                    Email <i style={{
+                                        fontSize: "14px",
+                                        color: "#0003",
+                                        fontWeight: "300",
+                                    }}>(private)</i>
+                                </label>
+                                <input placeholder='email@address.com' value={userInfo?.email} onChange={handleChange} name='email' />
+                            </div>
+                            <div className='inp-holder'>
+                                <label>
                                     ABOUT ME
                                 </label>
                                 <input type='bio' placeholder='I hodl crypto' value={userInfo?.bio} onChange={handleChange} name='bio' />

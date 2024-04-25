@@ -81,25 +81,6 @@ const Header = ({appState, setAppState}) => {
                             </NavLink>
                         </p>
                     </>}
-                    {appState?.isLoggedIn && <p>
-                        <Link style={{
-                            fontSize: "14px",
-                        }} className={showMore ? "" : "logout"} onClick={()=>{
-                            const confirm = window.confirm("Are you sure?")
-                            if(confirm){
-                                signOut(auth).then(() => {
-                                // Sign-out successful.
-                                console.log('Logout successful');
-                                navigate("/auth/login")
-                                }).catch((error) => {
-                                // An error happened.
-                                console.error('Logout failed', error);
-                                });
-                            }
-                        }}>
-                            Logout
-                        </Link>
-                    </p>}
                 </div>
                 <div className='bottom'>
                     <p>

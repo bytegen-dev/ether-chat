@@ -561,7 +561,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                                 maxWidth: "300px",
                                 border: "1px solid #0001"
                             }}> 
-                                Messages sent on <b>The Love Universe</b> are end-to-end encrypted
+                                Hi, don't forget to keep your conversations safe & compliant
                             </p>
                         }
 

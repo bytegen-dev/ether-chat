@@ -4,16 +4,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import ErrorComponent from '../../components/error/ErrorComponent'
 import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, firestore } from '../../firebaseConfig'
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore'
+import { doc, setDoc, serverTimestamp, getDoc } from 'firebase/firestore'
 import Footer from '../../components/footer/Footer'
-import { FaBoltLightning } from 'react-icons/fa6'
+import { FaBoltLightning, FaXTwitter } from 'react-icons/fa6'
+import ethImg from "../../assets/ether-ii.png"
 
 const SignUp = ({appState, setAppState}) => {
     const genders = [
-        "dev",
-        "trader",
-        "hodler",
-        "degen",
+        "human",
+        "bot",
     ]
 
     const stages = [
@@ -27,7 +26,7 @@ const SignUp = ({appState, setAppState}) => {
 
     const [userInfo, setUserInfo] = useState({
         name: "",
-        birthday: "",
+        birthday: "2004-09-14",
         gender: "",
         email: "",
         password: "",
@@ -57,24 +56,52 @@ const SignUp = ({appState, setAppState}) => {
 
     const navigate = useNavigate()
 
-    const createUserProfileDocument = async (details, user) => {
+    const createUserProfileDocument = async (details, walletAddress) => {
         try{
-            await setDoc(doc(firestore, "users", user?.uid), {
+            const res = await setDoc(doc(firestore, "users", walletAddress), {
               ...details,
-              uid: user?.uid
+              uid: walletAddress,
+              walletAddress,
+              ethAddress: walletAddress,
             });
-            navigate('/setup-wizard');
-            setAppState((prev)=>{
-                return(
-                    {
-                        ...prev,
-                        isLoading: false,
-                    }
-                )
-            })
+            console.log(walletAddress)
+            console.log(res)
+            // navigate('/setup-wizard');
+            if(res){
+                setAppState((prev)=>{
+                    return(
+                        {
+                            ...prev,
+                            isLoading: false,
+                            isLoggedIn: true,
+                            user: {
+                                ...details,
+                                uid: walletAddress,
+                                walletAddress,
+                            },
+                        }
+                    )
+                })
+            }
         } catch(error){
             console.error(error)
             throw error
+        }
+    };
+
+    const handleConnectWallet = async () => {
+        if (!window.ethereum) {
+          return;
+        }
+    
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const walletAddress = accounts[0];
+    
+          return walletAddress
+        } catch (error) {
+          console.error('Error connecting wallet:', error);
+        //   alert('Failed to connect wallet. Please try again.');
         }
     };
 
@@ -82,16 +109,9 @@ const SignUp = ({appState, setAppState}) => {
         e.preventDefault()
         setError(null)
         
-        const {email, password, name, gender, birthday} = userInfo
+        // const {email, password, name, gender, birthday} = userInfo
         
-        const details = {
-            email,
-            password,
-            name,
-            gender,
-            birthday,
-            createdAt: serverTimestamp(),
-        }
+        const details = userInfo
 
         setAppState((prev)=>{
             return ({
@@ -109,9 +129,45 @@ const SignUp = ({appState, setAppState}) => {
                     }
                 )
             })
-            const result = await createUserWithEmailAndPassword(auth, email, password);
-            const user = result.user
-            await createUserProfileDocument(details, user);
+            const walletAddress = await handleConnectWallet();
+            if(walletAddress){
+                setAppState((prev)=>{
+                    return ({
+                        ...prev,
+                        walletAddress,
+                    })
+                });
+                const userDoc = doc(firestore, 'users', walletAddress);
+                const docSnap = await getDoc(userDoc);
+                const userData = docSnap.data()
+            
+                if (userData) {
+                    setAppState((prev)=>{
+                        return ({
+                            ...prev,
+                            isLoggedIn: true,
+                            user: userData,
+                            isLoading: false,
+                            walletAddress,
+                        })
+                    });
+                    navigate('/', {
+                        replace: true
+                    });
+                } else {
+                    await createUserProfileDocument(details, walletAddress);
+                }
+            } else{
+                setAppState((prev)=>{
+                    return(
+                        {
+                            ...prev,
+                            isLoading: false,
+                        }
+                    )
+                })
+                setError("Install Metamask")
+            }
         } catch (error) {
             console.error(error);
             setAppState((prev)=>{
@@ -182,9 +238,9 @@ const SignUp = ({appState, setAppState}) => {
                         <h1 className='title_main'>
                             Connect with your ETH buddies
                         </h1>
-                        <p className='paragraph paragraph main'>
+                        {/* <p className='paragraph paragraph main'>
                             <b style={{fontSize: "inherit"}}>Ether chat</b> is a project made for the ethereum web3 community to discover and communicate with new frens.
-                        </p>
+                        </p> */}
                         {error && <ErrorComponent error={error} />}
                         {currentStage === stages[0] && <div className='signup--card'>
                         <form onSubmit={handleDetailsSubmit}>
@@ -240,8 +296,10 @@ const SignUp = ({appState, setAppState}) => {
 
                             <div className='inp-holder check'>
                                 <input id='check' type="checkbox" required />
-                                <label htmlFor='check'>
-                                    <span>LFG <FaBoltLightning color='red' /> </span>
+                                <label htmlFor='check' style={{
+                                    marginTop: "5px"
+                                }}>
+                                    <span>LFG ⚡</span>
                                      {/* <Link to={"/terms"}>
                                         Report 
                                     </Link> */}
@@ -259,15 +317,19 @@ const SignUp = ({appState, setAppState}) => {
                             <form onSubmit={handleSubmit}>
                                 <div className='inp-holder'>
                                     <label>
-                                        Discord
+                                        <FaXTwitter />.com <i style={{
+                                            fontSize: "14px",
+                                            fontWeight: "300",
+                                            color: "#0003"
+                                        }}>(optional)</i>
                                     </label>
-                                    <input placeholder={userInfo?.name || "johnwick"} value={userInfo?.email} name='email' onChange={handleChange} type='email' />
+                                    <input placeholder={"Twitter username"} value={userInfo?.twitter} name='twitter' onChange={handleChange} />
                                 </div>
-                                <div className='inp-holder'>
-                                    <label>
-                                        Password
-                                    </label>
-                                    <input placeholder='******' minLength={6} maxLength={10} value={userInfo?.password} name='password' onChange={handleChange} type='password' required />
+                                <div className='divider'>
+                                <p className='center' style={{
+                                    backgroundColor: "transparent",
+                                    backdropFilter: "blur(10px)"
+                                }}><img src={ethImg} width={40} /></p>
                                 </div>
                                 <div className='btn-holder'>
                                     <button className='btn fancy filled hover'>
@@ -275,23 +337,7 @@ const SignUp = ({appState, setAppState}) => {
                                     </button>
                                 </div>
                             </form>
-                            <div className='divider'>
-                                <p className='center' style={{
-                                    backgroundColor: "transparent",
-                                    backdropFilter: "blur(10px)"
-                                }}>or</p>
-                            </div>
-                            <div className='actions'>
-                                <button className='btn filled white icon-big outline hover' onClick={(e)=>{
-                                    e.preventDefault()
-                                    e.stopPropagation()
-                                    console.log("Creating acct with google popup")
-                                    googleSignIn()
-                                }}>
-                                    <FaGoogle />
-                                    Sign up with Google
-                                </button>
-                            </div>
+                            
                         </div>}
                         <div className='pagination-holder'>
                             {stages?.map((stage, index)=>{

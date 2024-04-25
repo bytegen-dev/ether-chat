@@ -7,7 +7,7 @@ import Loader from './components/loader/Loader'
 import SignUp from './pages/auth/SignUp'
 import { useAuth } from './context/AuthContext'
 import { onAuthStateChanged } from 'firebase/auth'
-import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
 import { auth, db, firestore } from './firebaseConfig'
 import Wizard from './pages/wizard/Wizard'
 import Development from './pages/development/Development'
@@ -32,8 +32,12 @@ import Share from './pages/share/Share';
 
 const notLoggedInLinks = [
   {
-    title: "Connect Wallet",
+    title: "Get Started",
     to: "/"
+  },
+  {
+    title: "Signin",
+    to: "/auth/login"
   },
   {
     title: "Github",
@@ -143,7 +147,7 @@ const App = () => {
     user: userTemplate,
     userTemplate,
     siteDetails: {
-      title: "The Love Universe",
+      title: "Ether chat",
     },
     users: [
     ],
@@ -152,34 +156,6 @@ const App = () => {
     links: [],
     showPay: false,
   })
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAppState((prev)=>{
-          return ({
-            ...prev,
-            isLoggedIn: true,
-            isBigLoading: true,
-          })
-        })
-      } else {
-        setAppState((prev)=>{
-          return ({
-            ...prev,
-            isLoggedIn: false,
-            isBigLoading: false,
-          })
-        })
-      }
-    });
-
-    window.addEventListener("contextmenu", (e)=>{
-      // e.preventDefault()
-    })
-
-    return () => unsubscribe();
-  }, []);
 
   useEffect(()=>{
     if(appState.isLoggedIn){
@@ -204,7 +180,7 @@ const App = () => {
 
       const fetchUserProfile = async () => {
         try{
-          const userDoc = doc(firestore, 'users', auth.currentUser.uid);
+          const userDoc = doc(firestore, 'users', appState?.walletAddress);
           const docSnap = await getDoc(userDoc);
           
           if (docSnap.exists()) {
@@ -215,7 +191,7 @@ const App = () => {
                 user: {
                   ...userTemplate,
                   ...details,
-                  uid: currentUser?.uid
+                  uid: appState?.walletAddress,
                 }
               })
             });
@@ -301,8 +277,131 @@ const App = () => {
             isLoading: false,
           })
         })
-      }, 500)
+      }, 900)
   },[pathname])
+
+  useEffect(() => {
+    
+  }, []);
+
+  useEffect(() => {
+    const checkWalletConnected = async () => {
+      if (window.ethereum && window.ethereum.isConnected()) {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const walletAddress = accounts[0];
+
+        const createUserProfileDocument = async (details, walletAddress) => {
+          try{
+              const res = await setDoc(doc(firestore, "users", walletAddress), {
+                ...details,
+                uid: walletAddress,
+                walletAddress,
+                ethAddress: walletAddress,
+              });
+              console.log(walletAddress)
+              console.log(res)
+              // navigate('/setup-wizard');
+              if(res){
+                  setAppState((prev)=>{
+                      return(
+                          {
+                              ...prev,
+                              isBigLoading: false,
+                              isLoggedIn: true,
+                              user: {
+                                  ...details,
+                                  uid: walletAddress,
+                                  walletAddress,
+                              },
+                          }
+                      )
+                  })
+              }
+          } catch(error){
+              console.error(error)
+              throw error
+          }
+      };
+  
+      const handleSubmit = async ()=>{
+          try {
+              if(walletAddress){
+                  setAppState((prev)=>{
+                      return ({
+                          ...prev,
+                          walletAddress,
+                      })
+                  });
+                  const userDoc = doc(firestore, 'users', walletAddress);
+                  const docSnap = await getDoc(userDoc);
+                  const userData = docSnap.data()
+              
+                  if (userData) {
+                      setAppState((prev)=>{
+                          return ({
+                              ...prev,
+                              isLoggedIn: true,
+                              user: userData,
+                              isBigLoading: false,
+                              walletAddress,
+                            })
+                        });
+                  } else {
+                      await createUserProfileDocument(details, walletAddress);
+                  }
+                } else{
+                  setAppState((prev)=>{
+                      return(
+                          {
+                              ...prev,
+                              isLoading: false,
+                          }
+                      )
+                  })
+                  setError("Install Metamask")
+              }
+          } catch (error) {
+              console.error(error);
+              setAppState((prev)=>{
+                  return(
+                      {
+                          ...prev,
+                          isBigLoading: false,
+                      }
+                  )
+              })
+          }
+      }
+
+      if(walletAddress){
+        handleSubmit()
+      }
+      }
+    };
+
+    const handleAccountsChanged = async (accounts) => {
+      if (accounts.length === 0) {
+        setAppState((prev)=>{
+          return ({
+            ...prev,
+            isLoggedIn: false,
+            user: userTemplate,
+          })
+        })
+        navigate("/auth/login", {replace: true})
+      } else {
+        checkWalletConnected();
+      }
+    };
+
+    checkWalletConnected();
+
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+
+    return () => {
+      window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+    };
+  }, []);
 
   useEffect(() => {
 
