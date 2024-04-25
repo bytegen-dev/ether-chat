@@ -607,6 +607,14 @@ body{
     align-items: center;
     gap: 10px;
     display: none;
+    transition: all 0.5s ease !important;
+
+    &.drop-full{
+        // scale: 0;
+        translate: 0 100%;
+        pointer-events: none;
+        visibility: hidden;
+    }
 
     @media screen and (max-width: 1100px) {
         display: flex;
@@ -662,7 +670,7 @@ body{
 .message-bar{
     position: fixed;
     z-index: 30;
-    background-color: rgba(lighten($neutral-beige, 5), 0.9);
+    background-color: rgba(lighten($neutral-beige, 3), 0.9);
     width: 85%;
     max-width: 500px;
     padding: 10px;
@@ -677,9 +685,9 @@ body{
     }
 
     button{
-        width: 40px;
-        min-width: 40px;
-        height: 40px;
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
         border-radius: 1000px;
         border: 1px solid #0002;
         background-color: #0001;
@@ -711,10 +719,18 @@ body{
             transition: all 0.5s ease;
             outline: none;
             background-color: transparent;
+            height: 45px;
+            min-height: 45px;
         
             &:focus{
                 background-color: #0001;
             }
+        }
+
+        label{
+            min-height: 45px;
+            display: flex;
+            align-items: center;
         }
 
         button{
@@ -851,8 +867,8 @@ body{
     display: none;
     top: 0;
     left: 0;
-    background-color: #0000;
-    z-index: 100;
+    background-color: #0007;
+    z-index: 99;
     backdrop-filter: blur(15px);
     height: 100%;
     width: 100%;
@@ -862,6 +878,10 @@ body{
     transition: all 0.35s ease;
     transition-delay: 0.2s;
     cursor: crosshair;
+
+    &.x{
+        display: flex;
+    }
     
     &.show{
         opacity: 1;
@@ -870,6 +890,14 @@ body{
         transition: all 0.5s ease;
         transition-delay: 0s;
     }
+}
+
+img{
+    background-image: url(../assets/image-gallery-w.png);
+    background-color: #0001;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px !important;
 }
 
 .page{
@@ -893,15 +921,17 @@ body{
     
     @media screen and (max-width: 700px) {
         animation: none;
-        animation: page-anim-mobile 0.5s ease forwards;
         animation-delay: 0s;
-        opacity: 0;
-        scale: 1.02;
+        opacity: 1;
+        animation: page-anim 0.2s ease forwards;
+        // scale: 1.02;
     }
 
     @keyframes page-anim {
+
         0%{
             opacity: 0;
+        
         }
         100%{
             opacity: 1;
@@ -2196,9 +2226,9 @@ body{
                 transition: all 0.5s ease;
                 position: relative;
                 border-radius: 1000px;
-                animation: opacitate-x 0.5s ease forwards;
+                // animation: opacitate-x 0.3s ease forwards;
                 overflow: hidden;
-                opacity: 0;
+                opacity: 1;
 
                 @media screen and (max-width: 500px) {
                     padding: 10px 5vw;
@@ -3359,9 +3389,9 @@ body{
     font-size: 14px;
     overflow: hidden;
     background-color: #0001;
-    opacity: 0;
+    // opacity: 0;
     border: 1px solid #0002;
-    animation: opacitate-x 0.5s ease forwards;
+    // animation: opacitate-x 0.2s ease forwards;
 
     @keyframes opacitate-x {
         0%{

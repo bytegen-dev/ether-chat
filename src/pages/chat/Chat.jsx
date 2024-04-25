@@ -23,11 +23,11 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
         appRef?.current?.scrollTo(0, appRef?.current?.scrollHeight);
     }
 
-    useLayoutEffect(()=>{
-        if(appRef?.current){
-            scrollToBottom()
-        }
-    },[appState?.user, uid])
+    // useLayoutEffect(()=>{
+    //     if(appRef?.current){
+    //         scrollToBottom()
+    //     }
+    // },[appState?.user, uid])
     
     useEffect(()=>{
         const chatMessagesX = appState?.messages?.filter((message)=>{
@@ -233,6 +233,14 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
     };
   }, [appRef?.current]);
 
+  const messagesEndRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (messagesEndRef?.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "instant", block: 'end' });
+    }
+  }, [appState?.isLoggedIn, chat?.messages]);
+
     return (
         <>
             {notFound && <div className='page user--page chat--page' ref={appRef}>
@@ -300,7 +308,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         setReplying(null)
                     }} />
                 </div>}
-                {sendGift && <div className='gift-bar menu-bar message-bar'>
+                {user && <div className={`gift-bar menu-bar message-bar ${sendGift ? "" : "drop-full"}`}>
                     <h3>
                         Send {user?.name} a Gift
                     </h3>
@@ -337,7 +345,7 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         Cancel
                     </button>
                 </div>}
-                {!sendGift && <div className='message-bar menu-bar' style={{
+                {user && <div className={`menu-bar message-bar ${sendGift ? "drop-full" : ""}`} style={{
                     overflow: "hidden",
                     alignItems: "stretch"
                 }}>
@@ -430,9 +438,11 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         <FaArrowDown />
                     </button>
                 )}
+                <div className={`backdrop x ${sendGift ? "show" : ""}`} onClick={()=>{
+                    setSendGift(false)
+                }}></div>
                 <div className='page user--page chat--page' ref={appRef}  style={{
                     transition: "all 0.3s ease",
-                    filter: sendGift ? "blur(30px)" : "none"
                 }} onClick={()=>{
                     setSendGift(false)
                 }}>
@@ -487,6 +497,16 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                                             {!seconds ? <></> : <button className={`message has-reply ${message?.type === "image" ? "image" : ""}`} onClick={getDetails} style={{
                                                 display: seconds ? "flex" : "none",
                                             }}>
+                                                <div ref={(index + 1 === chat?.messages?.length) ? messagesEndRef : null} className='ref-item' style={{
+                                                    position: "absolute",
+                                                    width: "30px",
+                                                    height: "20px",
+                                                    background: "red",
+                                                    zIndex: "5",
+                                                    bottom: "-100px",
+                                                    opacity: "0",
+                                                    pointerEvents: "none"
+                                                }}></div>
                                                 {!id && <div className='spinner'></div>}
                                                 {message?.isReply && <div className='reply'>
                                                     {message?.isReply === "Image"&& <IoImageOutline />} {message?.isReply || "..."}
