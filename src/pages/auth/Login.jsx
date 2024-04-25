@@ -83,7 +83,6 @@ const Login = ({appState, setAppState}) => {
           return walletAddress
         } catch (error) {
           console.error('Error connecting wallet:', error);
-        //   alert('Failed to connect wallet. Please try again.');
         }
     };
 
@@ -148,7 +147,7 @@ const Login = ({appState, setAppState}) => {
                         }
                     )
                 })
-                setError("Cancelled")
+                setError("Wallet not found")
             }
         } catch (error) {
             console.error(error);

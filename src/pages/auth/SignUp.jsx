@@ -166,7 +166,7 @@ const SignUp = ({appState, setAppState}) => {
                         }
                     )
                 })
-                setError("Install Metamask")
+                setError("Wallet not found")
             }
         } catch (error) {
             console.error(error);
