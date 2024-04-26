@@ -316,7 +316,7 @@ const App = () => {
     }
 };
 
-const userId = appState?.user?.uid || walletAddress
+const userId = appState?.user?.uid || appState?.walletAddress
 
 
 useEffect(()=>{
