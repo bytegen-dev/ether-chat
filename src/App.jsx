@@ -8,7 +8,6 @@ import SignUp from './pages/auth/SignUp'
 import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
 import { firestore } from './firebaseConfig'
 import Wizard from './pages/wizard/Wizard'
-import Development from './pages/development/Development'
 import Search from './pages/search/Search'
 import User from './pages/user/User'
 import Chats from './pages/chats/Chats'
@@ -20,7 +19,6 @@ import Notifications from './pages/notifications/Notifications'
 import Profile from './pages/profile/Profile'
 import UpdateProfiie from './pages/update-profile/UpdateProfiie';
 import MailInfo from './pages/mailInfo/MailInfo';
-import Admin from './pages/admin/Admin';
 import BuyCredits from './components/buy-credits-popup/BuyCredits';
 import Share from './pages/share/Share';
 
@@ -569,8 +567,8 @@ useEffect(() => {
               }}>
                 <h2 style={{
                   marginTop: "20px",
-                }}>
-                  404 | Page not found
+                }} className='fine'>
+                  <span>404</span> | Page not found
                 </h2>
               </div>
             </div>} />

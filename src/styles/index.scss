@@ -4376,3 +4376,13 @@ input{
         }
     }
 }
+
+.fine{
+    span{
+        color: $primary-color;
+        // background-image: linear-gradient(90deg,$ethereum-blue,$crypto-purple);
+        // -webkit-background-clip: text;
+        // background-clip: text;
+        // -webkit-text-fill-color: transparent;
+    }
+}
