@@ -445,7 +445,7 @@ body{
         // max-width: 250px;
 
         p{
-            padding: 0;
+            padding: 0 !important;
             text-align: left;
             // width: 100%;
 
@@ -573,11 +573,11 @@ body{
                 gap: 5px;
                 text-decoration: none;
                 font-weight: 600;
-                padding: 10px 30px !important;
-
+                padding: 10px 20px !important;
+                
                 &:hover{
                     gap: 7px;
-                    padding-left: 50px !important;
+                    padding: 10px 30px !important;
 
                     &.logout{
                         padding-left: 30px !important;
