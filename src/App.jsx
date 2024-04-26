@@ -532,11 +532,6 @@ useEffect(() => {
             <Route path='/account' element={appState?.isLoggedIn ? <Profile appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
             <Route path='/share' element={appState?.isLoggedIn ? <Share appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
-
-            <Route path='/account/credits' element={appState?.isLoggedIn ? <>
-              <Profile appState={appState} setAppState={setAppState} />
-              <BuyCredits appState={appState} setAppState={setAppState} />
-            </> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
             <Route path='/account/update' element={appState?.isLoggedIn ? <UpdateProfiie appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
@@ -561,21 +556,24 @@ useEffect(() => {
             
             : <SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/auth/get-started' element={<SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
+            {/* <Route path='/auth/get-started' element={<SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} /> */}
 
             <Route path='/auth/login' element={<Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
               
-            <Route path='/admin' element={appState?.user?.isAdmin ? <Admin appState={appState} setAppState={setAppState} /> : <div className='page'>
+            <Route path='/*' element={<div className='page'>
               <div className='container' style={{
-                marginTop: "70px",
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems:"center"
               }}>
-                <p>
-                  401 | Restricted Access
-                </p>
+                <h2 style={{
+                  marginTop: "20px",
+                }}>
+                  404 | Page not found
+                </h2>
               </div>
             </div>} />
-            
-            <Route path='/*' element={<Development />} />
           </Routes>
         </div>
     </>
