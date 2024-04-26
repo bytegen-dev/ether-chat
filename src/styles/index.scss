@@ -1038,8 +1038,9 @@ body{
         flex-direction: column;
         gap: 20px;
         align-items: center;
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(10px);
         background-color: #00000001;
+        background-color: rgba($neutral-beige, 0.8);
 
         h1{
             width: 100%;
