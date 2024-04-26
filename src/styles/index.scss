@@ -149,13 +149,12 @@ body{
                 justify-content: center;
             }
 
+            background-image: linear-gradient(90deg,$ethereum-blue,$crypto-purple);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+
             span{
-                background-color: $primary-color;
-                // background-image: linear-gradient(145deg, $crypto-orange, $ethereum-blue);
-                background-clip: text;
-                -webkit-background-clip: text;
-                color: $primary-color;
-                color: transparent;
                 font-weight: 600;
                 margin-left: -5px;
                 margin-right: -5px;
@@ -966,15 +965,43 @@ body{
     }
 
     &.login--page{
+        background-color: $dark-bg !important;
+        .container{
+            padding-top: 0px;
+        }
+        
+        .footer{
+            margin-top: 0px;
+        }
         .page--section{
+            width: 100vw;
             display: grid;
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                background-image: linear-gradient(rgba($neutral-beige, 0.9), rgba($neutral-beige, 0.9)), url(https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=);
+                // background-size: contain;
+                background-size: 440px;
+                
+                @media screen and (max-width: 500px) {
+                    background-size: contain;
+                }
+            }
+            padding: 0 5vw;
             grid-template-columns: repeat(2, 1fr);
             gap: 50px;
-            padding-top: 100px;
-            padding-bottom: 70px;
+            padding-top: 200px;
+            padding-bottom: 150px;
             
             @media screen and (max-width: 1100px) {
-                padding-top: 50px;
+                padding-top: 150px;
+                padding-bottom: 100px;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -1011,12 +1038,18 @@ body{
         flex-direction: column;
         gap: 20px;
         align-items: center;
+        backdrop-filter: blur(4px);
+        background-color: #0001;
 
-        h2{
+        h1{
             width: 100%;
-            font-weight: 600;
             position: relative;
             overflow: hidden;
+            font-size: 45px;
+            background-image: linear-gradient(90deg,$ethereum-blue,$crypto-purple);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         form{
@@ -1088,11 +1121,26 @@ body{
             position: relative;
             border-bottom: 2px solid #0001;
             margin: 10px 0;
+            margin-bottom: 20px;
 
             p{
                 position: absolute;
-                background-color: #fff;
-                padding: 10px;
+                background-color: transparent !important;
+                border-radius: 100px;
+                border: 2px solid #0001 !important;
+                height: 50px;
+                width: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                img{
+                    background-color: $neutral-beige !important;
+                    height: 100%;
+                    width: 100%;
+                    padding: 10px;
+                    border-radius: 1100px;
+                }
             }
         }
     }
@@ -3149,6 +3197,8 @@ body{
         flex-direction: column;
         align-items: center;
         gap: 20px;
+        position: relative;
+        z-index: 10;
 
         
         .cprt{

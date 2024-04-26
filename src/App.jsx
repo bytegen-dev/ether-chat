@@ -61,22 +61,13 @@ createWeb3Modal({
 
 const notLoggedInLinks = [
   {
-    title: "Get Started",
+    title: "Get started",
     to: "/"
-  },
-  {
-    title: "Signin",
-    to: "/auth/login"
   },
   {
     title: "Github",
     isLink: false,
     to: "https://github.com/bytegen-dev",
-  },
-  {
-    title: "Twitter",
-    isLink: true,
-    to: "https://x.com/isaacadxbayo",
   },
 ]
 

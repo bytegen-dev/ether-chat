@@ -175,17 +175,14 @@ const Login = ({appState, connectWallet, setAppState}) => {
                 <div className='login--card' style={{
                     maxWidth: "500px"
                 }}>
-                    <h2 style={{
+                    <h1 style={{
                         textAlign: "center",
                         marginBottom: "20px",
-                    }}>Continue to Ether chat</h2>
+                    }}><span>Ether</span> chat</h1>
                     {error && <ErrorComponent error={error} />}
                     <form onSubmit={handleSubmit}>
                         <div className='divider'>
-                            <p className='center' style={{
-                                backgroundColor: "transparent",
-                                backdropFilter: "blur(10px)"
-                            }}><img src={ethImg} width={"30px"} /></p>
+                            <p className='center'><img src={ethImg} /></p>
                         </div>
                         <div className='btn-holder'>
                             <button className='btn fancy filled hover'>
