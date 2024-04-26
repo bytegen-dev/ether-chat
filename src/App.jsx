@@ -5,10 +5,8 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import Login from './pages/auth/Login'
 import Loader from './components/loader/Loader'
 import SignUp from './pages/auth/SignUp'
-import { useAuth } from './context/AuthContext'
-import { onAuthStateChanged } from 'firebase/auth'
 import { collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from 'firebase/firestore'
-import { auth, db, firestore } from './firebaseConfig'
+import { firestore } from './firebaseConfig'
 import Wizard from './pages/wizard/Wizard'
 import Development from './pages/development/Development'
 import Search from './pages/search/Search'
@@ -23,12 +21,43 @@ import Profile from './pages/profile/Profile'
 import UpdateProfiie from './pages/update-profile/UpdateProfiie';
 import MailInfo from './pages/mailInfo/MailInfo';
 import Admin from './pages/admin/Admin';
-import { CursorifyProvider } from '@cursorify/react';
-import AnimatedCursor from 'react-animated-cursor';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import BuyCredits from './components/buy-credits-popup/BuyCredits';
 import Share from './pages/share/Share';
-// import { PhingerCursor } from '@cursorify/react';
+
+import { createWeb3Modal, defaultConfig, useWeb3Modal, useWeb3ModalAccount } from '@web3modal/ethers/react'
+
+const projectId = import.meta.env.VITE_REACT_APP_WEB3MODAL_PROJECT_ID
+
+const mainnet = {
+  chainId: 1,
+  name: 'Ethereum',
+  currency: 'ETH',
+  explorerUrl: 'https://etherscan.io',
+  rpcUrl: 'https://cloudflare-eth.com'
+}
+
+const metadata = {
+  name: 'Eth chat',
+  description: 'Ethers chat Dapp',
+  url: 'https://ether-chat.vercel.app',
+  icons: ['https://ether-chat.vercel.app/logo.png']
+}
+
+const ethersConfig = defaultConfig({
+  metadata,
+  enableEIP6963: true,
+  enableInjected: true,
+  enableCoinbase: true,
+  rpcUrl: '...',
+  defaultChainId: 1,
+})
+
+createWeb3Modal({
+  ethersConfig,
+  chains: [mainnet],
+  projectId,
+  enableAnalytics: true
+})
 
 const notLoggedInLinks = [
   {
@@ -103,39 +132,16 @@ const userTemplate = {
   createdAt: null,
   following: [],
   notifications: [],
-}
-
-const userTemplateX = {
-  isAdmin: false,
-  isPremium: false,
-  username: "axaxa",
-  uid: "axaxaxax",
-  displayName: "Ashley",
-  email: "axaxjakcda",
-  profileImageUrl: "",
-  pronouns: "",
-  birthday: "",
-  gender: "",
-  isProvider: false,
-  myServices: [],
-  friends: [],
-  messages: [],
-  gallery: [],
-  accountCreated: "",
-  accountUpdated: "",
-  isDisabled: "",
-  isDeleted: "",
-  goals: [],
-  isSuspended: "",
-  isProfileCompleted: true,
-  createdAt: null,
+  walletAddress: "",
+  ethAddress: "",
 }
 
 const App = () => {
   const location = useLocation()
   const pathname = location.pathname
 
-  const { currentUser } = useAuth();
+  const { open } = useWeb3Modal()
+
 
   const navigate = useNavigate()
 
@@ -156,6 +162,16 @@ const App = () => {
     links: [],
     showPay: false,
   })
+
+  const connectWallet = async ()=>{
+    try{
+      open()
+    } catch(error){
+      throw(error)
+    }
+  }
+
+  const { isConnected, address } = useWeb3ModalAccount()
 
   useEffect(()=>{
     if(appState.isLoggedIn){
@@ -268,203 +284,126 @@ const App = () => {
     }
   },[appState.isLoggedIn, pathname])
 
-  const userId = appState?.user?.uid
+  const createUserProfileDocument = async (walletAddress) => {
+    try{
+        const slicedWalletAddress = `${walletAddress?.slice(0, 4)}...${walletAddress?.slice(-2, -1)}`
+        await setDoc(doc(firestore, "users", walletAddress), {
+          uid: walletAddress,
+          walletAddress,
+          ethAddress: walletAddress,
+          name: `Guest ${slicedWalletAddress}`,
+          profileImageUrl: "https://ether-chat-xi.vercel.app/logo.png"
+        });
+        if(walletAddress){
+            setAppState((prev)=>{
+                return(
+                    {
+                        ...prev,
+                        isLoading: false,
+                        isLoggedIn: true,
+                        user: {
+                          uid: walletAddress,
+                          walletAddress,
+                          name: `Guest ${slicedWalletAddress}`
+                        },
+                    }
+                )
+            })
+        }
+    } catch(error){
+        console.error(error)
+        throw error
+    }
+};
+
+const userId = appState?.user?.uid || walletAddress
+
+
+useEffect(()=>{
+  if(isConnected){
+    setAppState((prev)=>{
+      return ({
+        ...prev,
+        isLoading: true,
+      })
+    })
+    const walletAddress = address
+    const fireMe = async()=>{
+      try{
+        setAppState((prev)=>{
+            return ({
+                ...prev,
+                walletAddress,
+                isLoading: true,
+            })
+        });
+        const userDoc = doc(firestore, 'users', walletAddress);
+        const docSnap = await getDoc(userDoc);
+        const userData = docSnap.data()
     
-    useEffect(()=>{
+        if (userData) {
+            setAppState((prev)=>{
+                return ({
+                    ...prev,
+                    isLoggedIn: true,
+                    user: userData,
+                    isLoading: false,
+                    walletAddress,
+                })
+            });
+            if(location?.pathname?.includes("/auth/login")){
+              navigate('/', {
+                replace: true
+              });
+            } else if(location?.pathname?.includes("/get-started")){
+              navigate('/', {
+                replace: true
+              });
+            }
+        } else {
+          await createUserProfileDocument(walletAddress);
+        }
+      } catch(error){
+        console.error(error)
+      }
+    }
+    if(walletAddress){
+      fireMe()
+    }
+  } else{
+    const goOff = async()=>{
+      const userRef = doc(firestore, "users", userId);
+      try {
+        await updateDoc(userRef, {isOnline: false});
+      } catch (error) {
+        console.error("Error updating profile: ", error);
+      }
+    }
+    if(appState?.isLoggedIn){
+      goOff()
       setTimeout(()=>{
         setAppState((prev)=>{
           return ({
             ...prev,
+            user: userTemplate,
+            isLoggedIn: false,
             isLoading: false,
           })
         })
-      }, 900)
-  },[pathname])
+      }, 500)
+    }
+  }
+}, [isConnected, address])
 
-  useEffect(() => {
-    const wasLoggedIn = localStorage?.getItem("was-logged-in")
-    const checkWalletConnected = async () => {
-      const wasLoggedIn = localStorage?.getItem("was-logged-in")
-      if(wasLoggedIn === "false"){
-        return
-      }
-      if (window.ethereum && window.ethereum.isConnected() && wasLoggedIn === "true") {
-        try{
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const walletAddress = accounts[0];
-  
-          const createUserProfileDocument = async (details, walletAddress) => {
-            try{
-                const res = await setDoc(doc(firestore, "users", walletAddress), {
-                  ...details,
-                  uid: walletAddress,
-                  walletAddress,
-                  ethAddress: walletAddress,
-                });
-                console.log(walletAddress)
-                console.log(res)
-                // navigate('/setup-wizard');
-                if(res){
-                    setAppState((prev)=>{
-                        return(
-                            {
-                                ...prev,
-                                isBigLoading: false,
-                                isLoggedIn: true,
-                                user: {
-                                    ...details,
-                                    uid: walletAddress,
-                                    walletAddress,
-                                },
-                            }
-                        )
-                    })
-                }
-            } catch(error){
-                console.error(error)
-                throw error
-            }
-          };
-      
-          const handleSubmit = async ()=>{
-              try {
-                  if(walletAddress){
-                      setAppState((prev)=>{
-                          return ({
-                              ...prev,
-                              walletAddress,
-                          })
-                      });
-                      const userDoc = doc(firestore, 'users', walletAddress);
-                      const docSnap = await getDoc(userDoc);
-                      const userData = docSnap.data()
-                  
-                      if (userData) {
-                          setAppState((prev)=>{
-                              return ({
-                                  ...prev,
-                                  isLoggedIn: true,
-                                  user: userData,
-                                  isBigLoading: false,
-                                  walletAddress,
-                                })
-                            });
-                      } else {
-                          await createUserProfileDocument(details, walletAddress);
-                      }
-                    } else{
-                      setAppState((prev)=>{
-                          return(
-                              {
-                                  ...prev,
-                                  isLoading: false,
-                              }
-                          )
-                      })
-                      setError("Install Metamask")
-                  }
-              } catch (error) {
-                  console.error(error);
-                  setAppState((prev)=>{
-                      return(
-                          {
-                              ...prev,
-                              isBigLoading: false,
-                          }
-                      )
-                  })
-              }
-          }
-  
-          if(walletAddress){
-            handleSubmit()
-          } else{
-            setAppState((prev)=>{
-              return ({
-                ...prev,
-                isBigLoading: false
-              })
-            })
-            localStorage?.setItem("was-logged-in", false)
-          }
-          
-        } catch(error){
-          setAppState((prev)=>{
-            return ({
-              ...prev,
-              isBigLoading: false
-            })
-          })
-          navigate("/")
-          localStorage?.setItem("was-logged-in", false)
-        }
-      } else{
-        setAppState((prev)=>{
-          return ({
-            ...prev,
-            isBigLoading: false
-          })
-        })
-      }
     
-    };
-
-    const handleAccountsChanged = async (accounts) => {
-      const wasLoggedIn = localStorage?.getItem("was-logged-in")
-      if (accounts.length === 0) {
-        setAppState((prev)=>{
-          return ({
-            ...prev,
-            isLoggedIn: false,
-            user: userTemplate,
-          })
-        })
-        localStorage?.setItem("was-logged-in", false)
-        setTimeout(()=>{
-          localStorage?.setItem("was-logged-in", false)
-        }, 1000)
-        navigate("/auth/login", {replace: true})
-      } else {
-        if(wasLoggedIn === "true"){
-          checkWalletConnected();
-        } else{
-          setAppState((prev)=>{
-            return ({
-              ...prev,
-              isBigLoading: false
-            })
-          })
-        }
-      }
-    };
-
-    if(wasLoggedIn === "true"){
-      checkWalletConnected();
-    } else{
+    useEffect(()=>{
       setAppState((prev)=>{
         return ({
           ...prev,
-          isBigLoading: false
+          isLoading: false,
         })
       })
-    }
-
-    if(!window?.ethereum){
-      setAppState((prev)=>{
-        return ({
-          ...prev,
-          isBigLoading: false
-        })
-      })
-    }
-    if(window?.ethereum){
-      window?.ethereum.on('accountsChanged', handleAccountsChanged);
-    }
-
-    return () => {
-      window?.ethereum?.removeListener('accountsChanged', handleAccountsChanged);
-    };
-  }, []);
+  },[pathname])
 
   useEffect(() => {
 
@@ -530,14 +469,14 @@ const App = () => {
     setAppState(prev => ({
       ...prev,
       users: usersFilter,
-      allUsers: usersArray
+      allUsers: usersArray,
+      isBigLoading: false,
     }));
   };
 
   
 useEffect(() => {
   const updateUserOnline = async (userId, updates) => {
-    // Ensure that we have a valid userId and the user is logged in before attempting to update
     if (userId && appState?.isLoggedIn) {
       const userRef = doc(firestore, "users", userId);
       try {
@@ -545,8 +484,6 @@ useEffect(() => {
       } catch (error) {
         console.error("Error updating profile: ", error);
       }
-    } else {
-      // console.log("User ID is missing or user is not logged in.");
     }
   };
 
@@ -560,56 +497,20 @@ useEffect(() => {
     }
   };
 
-  // Add visibility change event listener
   document.addEventListener("visibilitychange", handleVisibilityChange);
   handleVisibilityChange()
 
-  // Remove event listener on cleanup
   return () => {
     document.removeEventListener("visibilitychange", handleVisibilityChange);
   };
-// If `userId` or `appState.isLoggedIn` can change, include them in the dependency array.
-// Otherwise, leave the dependency array empty.
 }, [userId, appState?.isLoggedIn, pathname]);
 
   const fetchAllMessages = ()=>{
   }
-
-  const addCredits = async()=>{
-    const userDocRef = doc(firestore, 'users', appState?.user?.uid);
-
-    const details = appState?.user
-    const prevCredits = details?.credits || "0"
-    const prevCreditsInt = parseInt(prevCredits)
-    const newCredits = prevCreditsInt + 50
-
-    const finalDetails = {
-      ...details,
-      credits: newCredits,
-    };
-
-    try{
-      await updateDoc(userDocRef, finalDetails);
-      setAppState((prev) => ({
-          ...prev,
-          isLoadingX: false,
-      }));
-    } catch(error){
-      console.error(error)
-    }
-
-  }
   
   return (
     <>
-        {/* <AnimatedCursor
-          innerSize={8}
-          outerSize={50}
-          color='94, 48, 211'
-          outerAlpha={0.1}
-          innerScale={0.7}
-          outerScale={2}
-        /> */}
+        
         {appState?.showPay && <BuyCredits appState={appState} setAppState={setAppState} />}
         <div className='App'>
           <>
@@ -626,52 +527,52 @@ useEffect(() => {
               {appState?.user?.isProfileCompleted ? <><Navigate to={"/search"} /></> : <Wizard appState={appState} setAppState={setAppState} />}
             </>
             
-            : <SignUp appState={appState} setAppState={setAppState} />} />
+            : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
             <Route path='/search' element={appState?.isLoggedIn ?
             <>
               {appState?.user?.isProfileCompleted ? <><Search appState={appState} setAppState={setAppState} /></> : <Wizard appState={appState} setAppState={setAppState} />}
             </>
             
-            : <SignUp appState={appState} setAppState={setAppState} />} />
+            : <SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/user/:uid' element={appState?.isLoggedIn ? <User appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/user/:uid' element={appState?.isLoggedIn ? <User appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/account' element={appState?.isLoggedIn ? <Profile appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/account' element={appState?.isLoggedIn ? <Profile appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/share' element={appState?.isLoggedIn ? <Share appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/share' element={appState?.isLoggedIn ? <Share appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
             <Route path='/account/credits' element={appState?.isLoggedIn ? <>
               <Profile appState={appState} setAppState={setAppState} />
               <BuyCredits appState={appState} setAppState={setAppState} />
-            </> : <Login appState={appState} setAppState={setAppState} />} />
+            </> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/account/update' element={appState?.isLoggedIn ? <UpdateProfiie appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/account/update' element={appState?.isLoggedIn ? <UpdateProfiie appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/chat/:uid' element={appState?.isLoggedIn ? <Chat fetchAllMessages={fetchAllMessages} appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/chat/:uid' element={appState?.isLoggedIn ? <Chat fetchAllMessages={fetchAllMessages} appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/mail/:id' element={appState?.isLoggedIn ? <MailInfo appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/mail/:id' element={appState?.isLoggedIn ? <MailInfo appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/send-mail/:uid' element={appState?.isLoggedIn ? <Mail appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/send-mail/:uid' element={appState?.isLoggedIn ? <Mail appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/people' element={appState?.isLoggedIn ? <People appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/people' element={appState?.isLoggedIn ? <People appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/chats' element={appState?.isLoggedIn ? <Chats appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/chats' element={appState?.isLoggedIn ? <Chats appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
-            <Route path='/mails' element={appState?.isLoggedIn ? <Mails appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/mails' element={appState?.isLoggedIn ? <Mails appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/notifications' element={appState?.isLoggedIn ? <Notifications appState={appState} setAppState={setAppState} /> : <Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/notifications' element={appState?.isLoggedIn ? <Notifications appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
             <Route path='/setup-wizard' element={appState?.isLoggedIn ?
             <>
               {appState?.user?.isProfileCompleted ? <><Wizard appState={appState} setAppState={setAppState} /></> : <Wizard appState={appState} setAppState={setAppState} />}
             </>
             
-            : <SignUp appState={appState} setAppState={setAppState} />} />
+            : <SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/auth/signup' element={<SignUp appState={appState} setAppState={setAppState} />} />
+            <Route path='/auth/get-started' element={<SignUp connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
-            <Route path='/auth/login' element={<Login appState={appState} setAppState={setAppState} />} />
+            <Route path='/auth/login' element={<Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
               
             <Route path='/admin' element={appState?.user?.isAdmin ? <Admin appState={appState} setAppState={setAppState} /> : <div className='page'>
               <div className='container' style={{

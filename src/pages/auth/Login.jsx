@@ -8,7 +8,7 @@ import ErrorComponent from '../../components/error/ErrorComponent'
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
 import ethImg from "../../assets/ether-ii.png"
 
-const Login = ({appState, setAppState}) => {
+const Login = ({appState, connectWallet, setAppState}) => {
     const [userInfo, setUserInfo] = useState({
         email: "",
         password: "",
@@ -97,58 +97,12 @@ const Login = ({appState, setAppState}) => {
         setAppState((prev)=>{
             return ({
                 ...prev,
-                isLoading: true,
+                isLoading: false,
             })
         })
         
         try {
-            setAppState((prev)=>{
-                return(
-                    {
-                        ...prev,
-                        isLoading: true,
-                    }
-                )
-            })
-            const walletAddress = await handleConnectWallet();
-            if(walletAddress){
-                setAppState((prev)=>{
-                    return ({
-                        ...prev,
-                        walletAddress,
-                    })
-                });
-                const userDoc = doc(firestore, 'users', walletAddress);
-                const docSnap = await getDoc(userDoc);
-                const userData = docSnap.data()
-            
-                if (userData) {
-                    setAppState((prev)=>{
-                        return ({
-                            ...prev,
-                            isLoggedIn: true,
-                            user: userData,
-                            isLoading: false,
-                            walletAddress,
-                        })
-                    });
-                    navigate('/', {
-                        replace: true
-                    });
-                } else {
-                    await createUserProfileDocument(details, walletAddress);
-                }
-            } else{
-                setAppState((prev)=>{
-                    return(
-                        {
-                            ...prev,
-                            isLoading: false,
-                        }
-                    )
-                })
-                setError("Wallet not found")
-            }
+            connectWallet();
         } catch (error) {
             console.error(error);
             setAppState((prev)=>{

@@ -1,7 +1,7 @@
 import { doc, updateDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { firestore } from '../../firebaseConfig'
-import freeCoins from "../../assets/free-coin.png"
+import eth2 from "../../assets/ether-ii.png"
 import { FaTimes } from 'react-icons/fa'
 import { IoFilter } from "react-icons/io5";
 import UserCard from '../../components/user/UserCard'
@@ -94,7 +94,7 @@ const Search = ({appState, setAppState}) => {
                 {/* <button className='close-btn rotate hover' onClick={closeFreeCredits}>
                     <FaTimes />
                 </button> */}
-                <img className='circle' src={freeCoins} alt='' />
+                <img className='circle' src={eth2} alt='' />
                 <h2>
                     Welcome
                 </h2>
@@ -109,7 +109,7 @@ const Search = ({appState, setAppState}) => {
                     (Tokens prevent spamming hopefully and without spamming our free servers can last as long as possible)
                 </i>
                 <div className='btn-holder'>
-                    <button className='btn green hover' onClick={closeFreeCredits}>
+                    <button className='btn fancy hover' onClick={closeFreeCredits}>
                         Okay
                     </button>
                 </div>

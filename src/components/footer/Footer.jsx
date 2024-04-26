@@ -7,7 +7,7 @@ import { FaBoltLightning } from 'react-icons/fa6'
 const Footer = () => {
   return (
     <div className='footer' style={{
-        marginBottom: "-70px"
+        marginBottom: "-100px"
     }}>
         <div className='content'>
             <div className='section i'>
@@ -38,7 +38,7 @@ const Footer = () => {
                 <div className='links-holder'>
                     <Link to={"https://github.com/"}>My Github</Link>
                     <Link to={"https://twitter.com/isaacadxbayo"}>Twitter</Link>
-                    <Link to={"https://linkedin/in/bytegen-dev"}>Linkedin</Link>
+                    <Link to={"https://linkedin.com/in/bytegen-dev"}>Linkedin</Link>
                     <Link to={"https://isaac-adebayo.vercel.app"}>Website</Link>
                 </div>
             </div>
@@ -59,6 +59,7 @@ const Footer = () => {
                         opacity: "0.4",
                     }}>Solana chat</Link>
                     <Link to={"https://cnftshirt.io"}>CNFTshirt.io</Link>
+                    <Link to={"https://spacebudz.io"}>spacebudz.io</Link>
                     <Link to={"https://solana-is-king.vercel.app"}>$SIK</Link>
                     <Link to={"https://deepsouth.ai"}>Deep South</Link>
                 </div>
@@ -81,7 +82,7 @@ const Footer = () => {
                     </h3>
                 </div>
                 <div className='links-holder'>
-                    <Link to={"/about"}>bytegen@gmail.com</Link>
+                    <Link to={"mailto:bytegen@gmail.com"}>bytegen@gmail.com</Link>
                 </div>
             </div>
         </div>

@@ -601,7 +601,7 @@ body{
     max-width: 390px;
     border-radius: 40px;
     z-index: 20;
-    padding: 7px 20px;
+    padding: 15px 30px;
     backdrop-filter: blur(10px);
     background-color: rgba($neutral-beige, 0.9);
     border: 1px solid #0002;
@@ -614,7 +614,6 @@ body{
     transition: all 0.5s ease !important;
 
     &.drop-full{
-        // scale: 0;
         translate: 0 100%;
         pointer-events: none;
         visibility: hidden;
@@ -1979,7 +1978,7 @@ body{
 
                 @media screen and (max-width: 500px) {
                     border: 1px solid #0000;
-                    // overflow: visible;
+                    overflow: visible;
                     margin-top: 20px;
                     min-width: 100%;
                     min-height: fit-content;
@@ -1987,7 +1986,7 @@ body{
                     &.account{
                         border-radius: 1000px;
                         margin-top: 60px;
-                        margin-bottom: 20px;
+                        margin-bottom: 60px;
                         background-image: url(../assets/image-gallery.png);
                         box-shadow: 0px 0px 10px #0001;
                         width: 200px !important;
@@ -2042,7 +2041,7 @@ body{
                     height: 300px;
                     bottom: 0;
                     z-index: 2;
-                    background-image: linear-gradient(#0000, #000a);
+                    background-image: linear-gradient(#0000, #0004);
                 }
 
                 .bottom{
@@ -2058,7 +2057,7 @@ body{
                     font-size: 24px;
                     font-weight: 600;
                     backdrop-filter: blur(10px);
-                    background-color: #0003;
+                    background-color: #0005;
                     border-radius: 1000px;
                     border: 1px solid #fff4;
 
@@ -2072,6 +2071,8 @@ body{
                     }
                     
                     @media screen and (max-width: 600px) {
+                        background-color: #0002;
+                        border: 1px solid #0002 !important;
                         p{
                             font-size: 20px;
                         }
@@ -3974,13 +3975,13 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 20px;
 
     .card{
-        width: 100%;
+        width: 92%;
         background-color: #fff;
-        padding: 20px 15px;
-        border-radius: 10px;
+        padding: 40px 15px;
+        border-radius: 20px;
         position: relative;
         display: flex;
         flex-direction: column;
@@ -3988,9 +3989,20 @@ button{
         align-items: center;
         gap: 10px;
         text-align: center;
-        padding-top: 30px;
+        padding-top: 50px;
         max-width: 500px;
-        animation: opacitate 1s ease forwards;
+        animation: scalexx 0.5s ease forwards;
+        position: fixed;
+        height: 90%;
+        max-height: 550px;
+        overflow-y: scroll;
+
+        @keyframes scalexx {
+            0%{
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        }
 
         .close-btn{
             position: absolute;
@@ -4020,17 +4032,17 @@ button{
         }
 
         h2{
-            font-size: 19px;
+            font-size: 39px;
             margin-bottom: 10px;
         }
 
         p{
-            font-size: 14px;
+            font-size: 18px;
             max-width: 300px;
             margin-bottom: 10px;
 
             span{
-                color: $success;
+                color: $primary-color;
             }
 
             b{
@@ -4039,8 +4051,16 @@ button{
             }
         }
 
+        i{
+            max-width: 300px;
+        }
+
         .btn-holder{
             margin-top: 30px;
+
+            button{
+                width: 150px;
+            }
         }
     }
 }
