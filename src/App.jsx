@@ -65,7 +65,12 @@ const notLoggedInLinks = [
   {
     title: "Github",
     isLink: false,
-    to: "https://github.com/bytegen-dev",
+    to: "https://github.com/bytegen-dev/ether-chat",
+  },
+  {
+    title: "Follow me",
+    isLink: false,
+    to: "https://x.com/isaacadxbayo",
   },
 ]
 
