@@ -1,5 +1,10 @@
-# React + Vite Deployment.
+# ETHER CHAT ⚡.
 MOVING TO **TYPESCRIPT** SOON 🚀
+ETHER CHAT UI/UX was built & designed by me 🙂
+Versions supporting **Cardano** and **Solana** will be uploaded soon.
+Completely in Typescript
+![image](https://github.com/bytegen-dev/ether-chat/assets/105110746/979cf6d6-866c-43e0-aadc-e2c9d2d4a279)
+
 
 **IMAGE PREVIEWS**
 ..............
@@ -10,6 +15,11 @@ MOVING TO **TYPESCRIPT** SOON 🚀
 ![image](https://github.com/bytegen-dev/ether-chat/assets/105110746/6605125b-5389-4a24-8d09-623653c2c770)
 ![image](https://github.com/bytegen-dev/ether-chat/assets/105110746/f22d3a47-62e0-43dd-b7d0-7d95fa6c0021)
 ![image](https://github.com/bytegen-dev/ether-chat/assets/105110746/5f669c0b-2f05-4bcc-8c3a-5cc791b8bd2e)
+
+HAVE A WEB3 PROJECT YOU NEED HELP WITH. DON'T HESITATE TO SEND A DM.
+DISCORD @isaac_developer
+TELEGRAM @isaac_developer
+
 
 ..............
 
