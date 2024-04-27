@@ -62,33 +62,7 @@ const Gift = ({appState, setAppState}) => {
     }, [currency])
 
     const sendCrypto = async () => {
-        setIsSending(true);
-        setTransactionHash(null);
-        setErrorMessage(null);
-
-        try {
-
-
-        const tx = {
-            from: account.address,
-            to: walletAddress,
-            value: walletProvider.utils.toWei(amount.toString(), currency === "USD" ? "usd" : 'ether'),
-            gas: '21000', // Adjust gas limit as needed
-            gasPrice: walletProvider.utils.toWei('5', 'gwei'),
-        };
-
-        // Send the transaction
-        const signedTx = await wallet.signTransaction(tx);
-        const txHash = await wallet.sendTransaction(signedTx);
-
-        setTransactionHash(txHash);
-        console.log('Transaction hash:', txHash); 
-        } catch (error) {
-        console.error('Error sending transaction:', error);
-        setErrorMessage(error.message || 'An error occurred while sending crypto.');
-        } finally {
-        setIsSending(false);
-        }
+        alert("Functionality in Development")
     };
 
     return (
