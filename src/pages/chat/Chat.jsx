@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { FaArrowDown, FaBitcoin, FaCamera, FaCheck, FaCheckDouble, FaChevronLeft, FaDollarSign, FaEdit, FaEthereum, FaEyeSlash, FaGift, FaImage, FaPencilAlt, FaRegGrinWink, FaRegStar, FaRegTimesCircle, FaReply, FaThumbsUp, FaTimes, FaTrash, FaTrashAlt } from 'react-icons/fa'
 import { IoChatbubbles, IoCheckmark, IoImageOutline, IoInformation, IoSend } from 'react-icons/io5'
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Online from '../../components/user/Online'
 import { firestore, storage } from '../../firebaseConfig';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
@@ -238,6 +238,8 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
 
   const [isFetched, setIsFetched] = useState(false)
 
+  const navigate = useNavigate()
+
   useLayoutEffect(() => {
     if (messagesEndRef?.current && !isFetched && chat?.messages?.length) {
         messagesEndRef.current.scrollIntoView({ behavior: "instant", block: 'end' });
@@ -317,19 +319,16 @@ const Chat = ({appState, setAppState, fetchAllMessages}) => {
                         Send {user?.name} a Gift
                     </h3>
                     <div className='types-holder'>
-                        <div className='type'>
+                        <div className='type' onClick={()=>{
+                            navigate(`/gift/${user?.uid}`)
+                        }}>
                             <FaEthereum />
                             ETH
                         </div>
-                        <div className='type'>
-                            <FaBitcoinSign />
-                            BTC
-                        </div>
-                        <div className='type'>
-                            <FaDollarSign />
-                            USDT
-                        </div>
-                        <div className='type'>
+                        <div className='type' style={{
+                            pointerEvents: "none",
+                            cursor: "not-allowed",
+                        }}>
                             <b>$CHATGEN</b>
                             tokens
                         </div>

@@ -23,6 +23,7 @@ import BuyCredits from './components/buy-credits-popup/BuyCredits';
 import Share from './pages/share/Share';
 
 import { createWeb3Modal, defaultConfig, useWeb3Modal, useWeb3ModalAccount } from '@web3modal/ethers/react'
+import Gift from './pages/gift/Gift';
 
 const projectId = import.meta.env.VITE_REACT_APP_WEB3MODAL_PROJECT_ID
 
@@ -539,6 +540,8 @@ useEffect(() => {
             <Route path='/account/update' element={appState?.isLoggedIn ? <UpdateProfiie appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
 
             <Route path='/chat/:uid' element={appState?.isLoggedIn ? <Chat fetchAllMessages={fetchAllMessages} appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
+            
+            <Route path='/gift/:uid' element={appState?.isLoggedIn ? <Gift appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             
             <Route path='/mail/:id' element={appState?.isLoggedIn ? <MailInfo appState={appState} setAppState={setAppState} /> : <Login connectWallet={connectWallet} appState={appState} setAppState={setAppState} />} />
             

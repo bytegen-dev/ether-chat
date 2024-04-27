@@ -2937,6 +2937,143 @@ body{
         }
     }
 
+    &.gift--page{
+        .heading{
+            margin-top: 30px;
+            text-align: center;
+
+            h2{
+                font-size: 45px;
+                margin-bottom: 14px;
+
+                span{
+                    background-image: linear-gradient(90deg,$ethereum-blue,$crypto-purple);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                @media screen and (max-width: 600px) {
+                    font-size: 45px;
+                }
+            }
+
+            p{
+                font-weight: 300;
+                color: #0004;
+            }
+        }
+
+        .settings{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #0004;
+            border-radius: 20px;
+            position: relative;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-top: 50px;
+            max-width: 650px;
+            
+            h3{
+                position: absolute;
+                top: -22.5px;
+                font-size: 20px;
+                font-weight: 500;
+                text-align: center;
+                background-color: $neutral-beige;
+                height: 45px;
+                border: 1px solid #0004;
+                border-radius: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 20px;
+            }
+
+            .inp-holder{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+
+                label{
+                    font-weight: 600;
+                    font-size: 18px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    button{
+                        padding: 10px 20px;
+                        color: #000;
+                        background-color: #0001;
+                        border: 1px solid #0004;
+                        border-radius: 100px;
+                        transition: all 0.5s ease;
+                        &:hover, &:focus{
+                            background-color: #0002;
+                        }
+                    }
+                }
+
+                input{
+                    padding: 10px 15px;
+                    background-color: #0001;
+                    border: 1px solid #0004;
+                    border-radius: 20px;
+                    width: 100%;
+                }
+                
+                .inp-hold{
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    width: 100%;
+
+                    .currency{
+                        width: 30px;
+                        min-width: 30px;
+                        height: 30px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 1000px;
+                        border: 1px solid #0004;
+                        background-color: $primary-color;
+                        color: #fff;
+                        background-image: linear-gradient(75deg,$ethereum-blue,$crypto-purple);
+                        &.dollar{
+                            background: none;
+                            background-color: $green-variant;
+                        }
+                    }
+                }
+
+            }
+
+            p{
+                span{
+                    font-size: 14px;
+                }
+            }
+            .btn{
+                width: fit-content;
+                font-size: 18px;
+                height: 50px;
+                padding: 0 30px;
+
+                svg{
+                    opacity: 0.7;
+                }
+            }
+        }
+    }
+
     &.user--page{
         .container{
             max-width: 800px;
