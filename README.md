@@ -1,5 +1,8 @@
 # React + Vite
 
+.env file is needed and should contain your firebase config and Web3 api keys
+more details dropping soon
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
