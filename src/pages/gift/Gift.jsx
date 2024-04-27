@@ -93,7 +93,7 @@ const Gift = ({appState, setAppState}) => {
                                 } else{
                                     setCurrency("USD")
                                 }
-                            }}>{currency} <IoSwapHorizontal /></button>
+                            }}>{currency} <IoSwapHorizontal /> </button>
                         </label>
                         <div className='inp-hold'>
                             <div className={`currency ${currency === "USD" ? "dollar" : ""}`}>
